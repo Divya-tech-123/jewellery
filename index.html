@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>LUMIÈRE — Timeless Jewellery For Every Moment | 22K BIS 916 Fine Jewellery</title>
+  <meta name="description" content="Discover Lumière's handcrafted 22K gold & diamond jewellery. Authentic Kasu Malas, Temple Jhumkas, Bangles, and modern heirlooms.">
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       1. TOP ANNOUNCEMENT BAR (32–36px height)
+       ========================================================================== -->
+  <aside class="announcement-bar" role="region" aria-label="Announcement">
+    <div class="announcement-inner">
+      <span class="announcement-text">COMPLIMENTARY SHIPPING ON ORDERS ABOVE ₹50,000</span>
+      <div class="announcement-desktop-links">
+        <span>100% BIS 916 Hallmarked</span>
+        <span class="divider">|</span>
+        <a href="#store-locator" onclick="openStoreModal(event)">Store Locator</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       2. MOBILE & DESKTOP STICKY NAVBAR (☰  LUMIÈRE  ♡  🛍)
+       ========================================================================== -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-container">
+      
+      <!-- Mobile Row (56–64px): ☰ Left, Centered Logo, ♡ & 🛍 Right -->
+      <div class="nav-mobile-row">
+        <button class="nav-icon-btn menu-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="nav-logo-wrap">
+          <a href="#" class="nav-logo">LUMIÈRE</a>
+          <span class="nav-sublogo">FINE JEWELLERY</span>
+        </div>
+
+        <div class="nav-mobile-actions">
+          <a href="#wishlist" class="nav-icon-btn relative" aria-label="Wishlist" onclick="toggleWishlistModal(event)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span class="badge" id="mobileWishlistBadge">1</span>
+          </a>
+          <a href="#cart" class="nav-icon-btn relative" aria-label="Cart" onclick="toggleCartDrawer(event)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span class="badge" id="mobileCartBadge">2</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Desktop Row (Hidden on mobile) -->
+      <div class="nav-desktop-row">
+        <div class="desktop-logo-wrap">
+          <a href="#" class="nav-logo">LUMIÈRE</a>
+          <span class="nav-sublogo">FINE JEWELLERY</span>
+        </div>
+
+        <nav class="desktop-nav-links">
+          <a href="#" class="active">Home</a>
+          <a href="#new-arrivals">Jewellery</a>
+          <a href="#categories">Collections</a>
+          <a href="#bridal">Bridal</a>
+          <a href="#heritage">Heritage</a>
+          <a href="#craft">Craftsmanship</a>
+        </nav>
+
+        <div class="desktop-nav-actions">
+          <button class="nav-action-text" onclick="openSearchModal()">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span>Search</span>
+          </button>
+          <a href="#wishlist" class="nav-icon-btn relative" title="Wishlist" onclick="toggleWishlistModal(event)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <span class="badge">1</span>
+          </a>
+          <a href="#cart" class="desktop-cart-btn" onclick="toggleCartDrawer(event)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            <span>Cart</span>
+            <span class="cart-pill">2</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Menu Drawer (Side Overlay) -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-overlay" onclick="toggleMobileMenu()"></div>
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <div>
+          <span class="drawer-title">LUMIÈRE</span>
+          <span class="drawer-subtitle">FINE JEWELLERY</span>
+        </div>
+        <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Close menu">✕</button>
+      </div>
+
+      <div class="drawer-search">
+        <form onsubmit="handleSearchSubmit(event)">
+          <input type="text" id="mobileSearchInput" placeholder="Search Jewellery (e.g. 22K Gold, Jhumkas)...">
+          <button type="submit" aria-label="Search">🔍</button>
+        </form>
+      </div>
+
+      <nav class="drawer-links">
+        <a href="#" onclick="toggleMobileMenu()">Home</a>
+        <a href="#categories" onclick="toggleMobileMenu()">Jewellery</a>
+        <a href="#categories" onclick="toggleMobileMenu()">Collections</a>
+        <a href="#new-arrivals" onclick="toggleMobileMenu()">New Arrivals</a>
+        <a href="#bridal" onclick="toggleMobileMenu()">Bridal</a>
+        <a href="#offers" onclick="toggleMobileMenu()">Offers</a>
+        <a href="#craft" onclick="toggleMobileMenu()">About</a>
+        <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+      </nav>
+
+      <div class="drawer-footer">
+        <div class="drawer-trust-pill">
+          <span>✓ 100% BIS 916 Hallmarked Gold</span>
+        </div>
+        <div class="drawer-contact-info">
+          <span>📞 +91 98490 12345</span>
+          <span>✉️ care@lumierejewels.in</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="mainContent">
+
+    <!-- ==========================================================================
+         SECTION 1: AUTOMATIC RESPONSIVE HERO BANNER CAROUSEL
+         Multi-banner carousel with autoplay, swipe, dots, and arrows
+         ========================================================================== -->
+    <section class="hero-carousel-section" id="heroCarousel" aria-roledescription="carousel" aria-label="Promotional Jewellery Campaigns">
+      <div class="hero-slides-wrapper">
+
+        <!-- SLIDE 1: NEW COLLECTION -->
+        <div class="hero-slide active" data-index="0">
+          <div class="container hero-container">
+            <div class="hero-content-col">
+              <div class="hero-eyebrow">
+                <span class="gold-dot"></span>
+                <span>22K BIS 916 GOLD · NEW COLLECTION</span>
+              </div>
+              <h1 class="hero-headline">
+                TIMELESS JEWELLERY<br>
+                FOR EVERY MOMENT
+              </h1>
+              <p class="hero-desc">
+                Handcrafted gold jewellery for celebrations, traditions and everyday elegance.
+              </p>
+              <div class="hero-cta-wrap">
+                <a href="#new-arrivals" class="btn btn-hero">
+                  <span>SHOP COLLECTION →</span>
+                </a>
+                <a href="#categories" class="btn btn-hero-outline desktop-only">
+                  <span>EXPLORE ALL</span>
+                </a>
+              </div>
+              <div class="hero-trust-row desktop-only">
+                <span class="trust-item"><span class="trust-check">✓</span> 100% BIS 916 Hallmarked</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Insured Fast Delivery</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Lifetime Exchange</span>
+              </div>
+            </div>
+            <div class="hero-image-col">
+              <div class="hero-img-wrap">
+                <img 
+                  src="assets/hero_campaign.jpg" 
+                  alt="South Indian woman adorned in handcrafted 22K gold jewellery" 
+                  class="hero-img"
+                  loading="eager"
+                >
+                <div class="hero-floating-badge">
+                  <span class="badge-title">22K GOLD</span>
+                  <span class="badge-sub">BIS 916</span>
+                </div>
+              </div>
+              <div class="hero-trust-row mobile-only">
+                <span class="trust-item"><span class="trust-check">✓</span> BIS 916</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Insured Delivery</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Lifetime Exchange</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2: BRIDAL COLLECTION -->
+        <div class="hero-slide" data-index="1">
+          <div class="container hero-container">
+            <div class="hero-content-col">
+              <div class="hero-eyebrow">
+                <span class="gold-dot"></span>
+                <span>KALYANAM · BRIDAL COLLECTION</span>
+              </div>
+              <h1 class="hero-headline">
+                MAKE YOUR SPECIAL DAY<br>
+                SHINE BRIGHTER
+              </h1>
+              <p class="hero-desc">
+                Discover timeless bridal jewellery inspired by tradition and master South Indian craftsmanship.
+              </p>
+              <div class="hero-cta-wrap">
+                <a href="#bridal" class="btn btn-hero">
+                  <span>EXPLORE BRIDAL →</span>
+                </a>
+                <a href="#contact" class="btn btn-hero-outline desktop-only">
+                  <span>BOOK CONSULTATION</span>
+                </a>
+              </div>
+              <div class="hero-trust-row desktop-only">
+                <span class="trust-item"><span class="trust-check">✓</span> Handcrafted Nakshi Temple Gold</span>
+                <span class="trust-item"><span class="trust-check">✓</span> 100% BIS 916 Certified</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Custom Bridal Sizing</span>
+              </div>
+            </div>
+            <div class="hero-image-col">
+              <div class="hero-img-wrap">
+                <img 
+                  src="assets/bridal_campaign.jpg" 
+                  alt="South Indian bride wearing regal 22K gold jewellery" 
+                  class="hero-img"
+                  style="object-position: center 20%;"
+                  loading="lazy"
+                >
+                <div class="hero-floating-badge">
+                  <span class="badge-title">BRIDAL EDIT</span>
+                  <span class="badge-sub">KALYANAM</span>
+                </div>
+              </div>
+              <div class="hero-trust-row mobile-only">
+                <span class="trust-item"><span class="trust-check">✓</span> BIS 916</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Bridal Harams</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Nakshi Craft</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 3: FESTIVE COLLECTION -->
+        <div class="hero-slide" data-index="2">
+          <div class="container hero-container">
+            <div class="hero-content-col">
+              <div class="hero-eyebrow">
+                <span class="gold-dot"></span>
+                <span>UTSAV · FESTIVE EDIT</span>
+              </div>
+              <h1 class="hero-headline">
+                CELEBRATE<br>
+                IN GOLD
+              </h1>
+              <p class="hero-desc">
+                Elegant jewellery for every celebration. Pure 22K gold designed to illuminate festive moments.
+              </p>
+              <div class="hero-cta-wrap">
+                <a href="#categories" class="btn btn-hero">
+                  <span>SHOP FESTIVE →</span>
+                </a>
+                <a href="#categories" class="btn btn-hero-outline desktop-only">
+                  <span>DISCOVER UTSAV</span>
+                </a>
+              </div>
+              <div class="hero-trust-row desktop-only">
+                <span class="trust-item"><span class="trust-check">✓</span> Auspicious 22K Designs</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Insured Express Delivery</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Velvet Gift Box</span>
+              </div>
+            </div>
+            <div class="hero-image-col">
+              <div class="hero-img-wrap">
+                <img 
+                  src="assets/festival_campaign.jpg" 
+                  alt="Festive gold jewellery for celebrations" 
+                  class="hero-img"
+                  style="object-position: center center;"
+                  loading="lazy"
+                >
+                <div class="hero-floating-badge">
+                  <span class="badge-title">FESTIVE EDIT</span>
+                  <span class="badge-sub">22K GOLD</span>
+                </div>
+              </div>
+              <div class="hero-trust-row mobile-only">
+                <span class="trust-item"><span class="trust-check">✓</span> BIS 916</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Festive Gold</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Gift Ready</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 4: SPECIAL OFFER -->
+        <div class="hero-slide" data-index="3">
+          <div class="container hero-container">
+            <div class="hero-content-col">
+              <div class="hero-eyebrow">
+                <span class="gold-dot"></span>
+                <span>ATELIER PRIVILEGE · SPECIAL OFFER</span>
+              </div>
+              <h1 class="hero-headline">
+                A LITTLE MORE GOLD,<br>
+                A LITTLE MORE JOY
+              </h1>
+              <p class="hero-desc">
+                Exclusive offers on selected handcrafted jewellery. Celebrate milestones with curated savings.
+              </p>
+              <div class="hero-cta-wrap">
+                <a href="#new-arrivals" class="btn btn-hero">
+                  <span>SHOP OFFERS →</span>
+                </a>
+                <a href="#categories" class="btn btn-hero-outline desktop-only">
+                  <span>VIEW PROMOTIONS</span>
+                </a>
+              </div>
+              <div class="hero-trust-row desktop-only">
+                <span class="trust-item"><span class="trust-check">✓</span> Zero Making Charge On Select Pieces</span>
+                <span class="trust-item"><span class="trust-check">✓</span> 100% BIS 916 Stamp</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Lifetime Value Promise</span>
+              </div>
+            </div>
+            <div class="hero-image-col">
+              <div class="hero-img-wrap">
+                <img 
+                  src="assets/category_necklace.jpg" 
+                  alt="Exclusive offer gold jewellery collection" 
+                  class="hero-img"
+                  style="object-position: center center;"
+                  loading="lazy"
+                >
+                <div class="hero-floating-badge">
+                  <span class="badge-title">EXCLUSIVE</span>
+                  <span class="badge-sub">ATELIER OFFER</span>
+                </div>
+              </div>
+              <div class="hero-trust-row mobile-only">
+                <span class="trust-item"><span class="trust-check">✓</span> BIS 916</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Special Value</span>
+                <span class="trust-item"><span class="trust-check">✓</span> Insured Courier</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Carousel Side Navigation Arrows (Desktop) -->
+      <button class="hero-arrow-btn prev" onclick="heroCarouselPrev()" aria-label="Previous promotional banner">‹</button>
+      <button class="hero-arrow-btn next" onclick="heroCarouselNext()" aria-label="Next promotional banner">›</button>
+
+      <!-- Carousel Pagination Dots (● ○ ○ ○) -->
+      <div class="hero-dots-container" id="heroDots">
+        <button class="hero-dot active" onclick="goToHeroSlide(0)" aria-label="Slide 1: New Collection"></button>
+        <button class="hero-dot" onclick="goToHeroSlide(1)" aria-label="Slide 2: Bridal Collection"></button>
+        <button class="hero-dot" onclick="goToHeroSlide(2)" aria-label="Slide 3: Festive Collection"></button>
+        <button class="hero-dot" onclick="goToHeroSlide(3)" aria-label="Slide 4: Special Offer"></button>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 2: SHOP BY CATEGORY (Immediately after Hero)
+         Horizontal swipe carousel showing ~2.5 cards on mobile
+         ========================================================================== -->
+    <section class="section categories-section" id="categories">
+      <div class="container">
+        
+        <div class="section-head flex-between">
+          <div>
+            <span class="section-tag">DISCOVER DESIGNS</span>
+            <h2 class="section-title">SHOP BY CATEGORY</h2>
+          </div>
+          <div class="carousel-indicators desktop-only">
+            <button class="arrow-btn" onclick="scrollCarousel('categoryCarousel', -280)" aria-label="Previous category">‹</button>
+            <button class="arrow-btn" onclick="scrollCarousel('categoryCarousel', 280)" aria-label="Next category">›</button>
+          </div>
+        </div>
+
+        <!-- Horizontal Swipe Carousel (2.5 cards visible on phone) -->
+        <div class="category-carousel-wrap">
+          <div class="category-carousel" id="categoryCarousel">
+            
+            <a href="#new-arrivals" class="category-card" onclick="filterCategory('Rings')">
+              <div class="cat-img-box">
+                <img src="assets/product_celeste_1.jpg" alt="Rings" loading="lazy">
+              </div>
+              <div class="cat-info">
+                <span class="cat-name">Rings</span>
+                <span class="cat-arrow">→</span>
+              </div>
+              <span class="cat-count">48 Designs</span>
+            </a>
+
+            <a href="#new-arrivals" class="category-card" onclick="filterCategory('Earrings')">
+              <div class="cat-img-box">
+                <img src="assets/category_earrings.jpg" alt="Earrings" loading="lazy">
+              </div>
+              <div class="cat-info">
+                <span class="cat-name">Earrings</span>
+                <span class="cat-arrow">→</span>
+              </div>
+              <span class="cat-count">86 Designs</span>
+            </a>
+
+            <a href="#new-arrivals" class="category-card" onclick="filterCategory('Necklaces')">
+              <div class="cat-img-box">
+                <img src="assets/category_necklace.jpg" alt="Necklaces" loading="lazy">
+              </div>
+              <div class="cat-info">
+                <span class="cat-name">Necklaces</span>
+                <span class="cat-arrow">→</span>
+              </div>
+              <span class="cat-count">64 Designs</span>
+            </a>
+
+            <a href="#new-arrivals" class="category-card" onclick="filterCategory('Chains')">
+              <div class="cat-img-box">
+                <img src="assets/category_chains.jpg" alt="Chains" loading="lazy">
+              </div>
+              <div class="cat-info">
+                <span class="cat-name">Chains</span>
+                <span class="cat-arrow">→</span>
+              </div>
+              <span class="cat-count">32 Designs</span>
+            </a>
+
+            <a href="#new-arrivals" class="category-card" onclick="filterCategory('Bangles')">
+              <div class="cat-img-box">
+                <img src="assets/category_bangles.jpg" alt="Bangles" loading="lazy">
+              </div>
+              <div class="cat-info">
+                <span class="cat-name">Bangles</span>
+                <span class="cat-arrow">→</span>
+              </div>
+              <span class="cat-count">54 Designs</span>
+            </a>
+
+            <a href="#new-arrivals" class="category-card" onclick="filterCategory('Pendants')">
+              <div class="cat-img-box">
+                <img src="assets/category_pendants.jpg" alt="Pendants" loading="lazy">
+              </div>
+              <div class="cat-info">
+                <span class="cat-name">Pendants</span>
+                <span class="cat-arrow">→</span>
+              </div>
+              <span class="cat-count">40 Designs</span>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 3: NEW ARRIVALS (Strictly 2-Column Grid on Mobile)
+         ========================================================================== -->
+    <section class="section new-arrivals-section" id="new-arrivals">
+      <div class="container">
+        
+        <div class="section-head flex-between">
+          <div>
+            <span class="section-tag">JUST LAUNCHED</span>
+            <h2 class="section-title">NEW ARRIVALS</h2>
+            <p class="section-subtitle">Fresh designs you'll love.</p>
+          </div>
+          <a href="#categories" class="view-all-link">VIEW ALL →</a>
+        </div>
+
+        <!-- 2-Column Product Grid -->
+        <div class="product-grid-2col">
+          
+          <!-- Product Card 1 -->
+          <article class="product-card">
+            <div class="prod-img-box">
+              <span class="prod-badge">22K GOLD</span>
+              <button class="wishlist-toggle-btn" onclick="toggleWishlistItem(this, 'Lakshmi Kasu Mala')" aria-label="Add to wishlist">♡</button>
+              <img src="assets/category_necklace.jpg" alt="Lakshmi Kasu Mala Gold Necklace" loading="lazy">
+            </div>
+            <div class="prod-details">
+              <div class="prod-meta">
+                <span class="prod-tag">BIS 916</span>
+                <span class="prod-rating">★ 4.9</span>
+              </div>
+              <h3 class="prod-title">Lakshmi Kasu Mala Gold Necklace</h3>
+              <div class="prod-price-row">
+                <span class="prod-price">₹84,500</span>
+                <span class="prod-mrp">₹95,000</span>
+              </div>
+              <button class="btn-add-cart" onclick="addToCart('Lakshmi Kasu Mala Gold Necklace', 84500, 'assets/category_necklace.jpg')">
+                ADD TO CART
+              </button>
+            </div>
+          </article>
+
+          <!-- Product Card 2 -->
+          <article class="product-card">
+            <div class="prod-img-box">
+              <span class="prod-badge">22K GOLD</span>
+              <button class="wishlist-toggle-btn" onclick="toggleWishlistItem(this, 'Temple Peacock Jhumkas')" aria-label="Add to wishlist">♡</button>
+              <img src="assets/category_earrings.jpg" alt="Temple Nakshi Peacock Jhumkas" loading="lazy">
+            </div>
+            <div class="prod-details">
+              <div class="prod-meta">
+                <span class="prod-tag">BIS 916</span>
+                <span class="prod-rating">★ 5.0</span>
+              </div>
+              <h3 class="prod-title">Temple Nakshi Peacock Jhumkas</h3>
+              <div class="prod-price-row">
+                <span class="prod-price">₹48,900</span>
+                <span class="prod-mrp">₹55,000</span>
+              </div>
+              <button class="btn-add-cart" onclick="addToCart('Temple Nakshi Peacock Jhumkas', 48900, 'assets/category_earrings.jpg')">
+                ADD TO CART
+              </button>
+            </div>
+          </article>
+
+          <!-- Product Card 3 -->
+          <article class="product-card">
+            <div class="prod-img-box">
+              <span class="prod-badge">18K SOLITAIRE</span>
+              <button class="wishlist-toggle-btn" onclick="toggleWishlistItem(this, 'Lotus Solitaire Ring')" aria-label="Add to wishlist">♡</button>
+              <img src="assets/product_celeste_1.jpg" alt="Padma Lotus Solitaire Diamond Ring" loading="lazy">
+            </div>
+            <div class="prod-details">
+              <div class="prod-meta">
+                <span class="prod-tag">IGI Diamond</span>
+                <span class="prod-rating">★ 4.8</span>
+              </div>
+              <h3 class="prod-title">Padma Lotus Solitaire Diamond Ring</h3>
+              <div class="prod-price-row">
+                <span class="prod-price">₹42,500</span>
+                <span class="prod-mrp">₹48,000</span>
+              </div>
+              <button class="btn-add-cart" onclick="addToCart('Padma Lotus Solitaire Diamond Ring', 42500, 'assets/product_celeste_1.jpg')">
+                ADD TO CART
+              </button>
+            </div>
+          </article>
+
+          <!-- Product Card 4 -->
+          <article class="product-card">
+            <div class="prod-img-box">
+              <span class="prod-badge">22K GOLD</span>
+              <button class="wishlist-toggle-btn" onclick="toggleWishlistItem(this, 'Gaja Lakshmi Pendant')" aria-label="Add to wishlist">♡</button>
+              <img src="assets/category_pendants.jpg" alt="Gaja Lakshmi Temple Gold Pendant" loading="lazy">
+            </div>
+            <div class="prod-details">
+              <div class="prod-meta">
+                <span class="prod-tag">BIS 916</span>
+                <span class="prod-rating">★ 4.9</span>
+              </div>
+              <h3 class="prod-title">Gaja Lakshmi Temple Gold Pendant</h3>
+              <div class="prod-price-row">
+                <span class="prod-price">₹26,800</span>
+                <span class="prod-mrp">₹30,000</span>
+              </div>
+              <button class="btn-add-cart" onclick="addToCart('Gaja Lakshmi Temple Gold Pendant', 26800, 'assets/category_pendants.jpg')">
+                ADD TO CART
+              </button>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 4: SHOP BY OCCASION (2-Column Grid, ~160–190px tall cards)
+         ========================================================================== -->
+    <section class="section occasion-section" id="occasions">
+      <div class="container">
+        
+        <div class="section-head text-center">
+          <span class="section-tag">CURATED CELEBRATIONS</span>
+          <h2 class="section-title">SHOP BY OCCASION</h2>
+          <div class="gold-line-center"></div>
+        </div>
+
+        <div class="occasion-grid-2col">
+          
+          <!-- Wedding -->
+          <a href="#bridal" class="occasion-card">
+            <div class="occ-img-box">
+              <img src="assets/category_bridal.jpg" alt="Wedding Jewellery" loading="lazy">
+            </div>
+            <div class="occ-overlay">
+              <span class="occ-label">WEDDING</span>
+              <span class="occ-sub">Bridal Sets & Harams →</span>
+            </div>
+          </a>
+
+          <!-- Festival -->
+          <a href="#new-arrivals" class="occasion-card">
+            <div class="occ-img-box">
+              <img src="assets/occasion_festival.jpg" alt="Festival Gold" loading="lazy">
+            </div>
+            <div class="occ-overlay">
+              <span class="occ-label">FESTIVAL</span>
+              <span class="occ-sub">Auspicious 22K Gold →</span>
+            </div>
+          </a>
+
+          <!-- Everyday -->
+          <a href="#categories" class="occasion-card">
+            <div class="occ-img-box">
+              <img src="assets/category_everyday.jpg" alt="Everyday Wear" loading="lazy">
+            </div>
+            <div class="occ-overlay">
+              <span class="occ-label">EVERYDAY</span>
+              <span class="occ-sub">Lightweight Daily Wear →</span>
+            </div>
+          </a>
+
+          <!-- Party -->
+          <a href="#categories" class="occasion-card">
+            <div class="occ-img-box">
+              <img src="assets/hero_campaign.jpg" alt="Party Diamonds" loading="lazy">
+            </div>
+            <div class="occ-overlay">
+              <span class="occ-label">PARTY</span>
+              <span class="occ-sub">Diamonds & Cocktails →</span>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 5: FEATURED PROMOTIONAL BANNER (Compact, 280–360px on mobile)
+         ========================================================================== -->
+    <section class="section heritage-section" id="heritage">
+      <div class="container">
+        
+        <div class="heritage-banner-compact">
+          <div class="heritage-content">
+            <span class="heritage-eyebrow">✦ SOUTH INDIAN ARTISTRY</span>
+            <h2 class="heritage-title">HERITAGE COLLECTION</h2>
+            <p class="heritage-quote">Tradition, crafted for today.</p>
+            <p class="heritage-desc">
+              Intricately hand-carved Nakshi temple motifs sculpted in pure 22K certified gold.
+            </p>
+            <a href="#categories" class="btn btn-heritage">
+              <span>DISCOVER</span>
+              <span>→</span>
+            </a>
+          </div>
+          <div class="heritage-img-box">
+            <img src="assets/category_gold.jpg" alt="Heritage Nakshi Gold Jewellery" loading="lazy">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 6: BESTSELLERS (Horizontal Swipe Carousel, 1.5–2 Cards Preview)
+         ========================================================================== -->
+    <section class="section bestsellers-section" id="bestsellers">
+      <div class="container">
+        
+        <div class="section-head flex-between">
+          <div>
+            <span class="section-tag">PATRON FAVORITES</span>
+            <h2 class="section-title">BESTSELLERS</h2>
+            <p class="section-subtitle">Most loved by our South Indian families.</p>
+          </div>
+          <div class="carousel-indicators desktop-only">
+            <button class="arrow-btn" onclick="scrollCarousel('bestsellerCarousel', -280)" aria-label="Previous bestseller">‹</button>
+            <button class="arrow-btn" onclick="scrollCarousel('bestsellerCarousel', 280)" aria-label="Next bestseller">›</button>
+          </div>
+        </div>
+
+        <!-- 1.5–2 Product Cards Swipe Carousel -->
+        <div class="bestseller-carousel-wrap">
+          <div class="bestseller-carousel" id="bestsellerCarousel">
+            
+            <!-- Bestseller Card 1 -->
+            <article class="product-card bestseller-card">
+              <div class="prod-img-box">
+                <span class="prod-badge gold">BESTSELLER</span>
+                <button class="wishlist-toggle-btn" onclick="toggleWishlistItem(this, 'Antique Bangles')" aria-label="Add to wishlist">♡</button>
+                <img src="assets/category_bangles.jpg" alt="Antique Nakshi Gold Bangles" loading="lazy">
+              </div>
+              <div class="prod-details">
+                <div class="prod-meta">
+                  <span class="prod-tag">22K Gold</span>
+                  <span class="prod-rating">★ 5.0</span>
+                </div>
+                <h3 class="prod-title">Heritage Antique Nakshi Gold Bangles</h3>
+                <div class="prod-price-row">
+                  <span class="prod-price">₹1,12,000</span>
+                  <span class="prod-mrp">₹1,25,000</span>
+                </div>
+                <button class="btn-add-cart" onclick="addToCart('Heritage Antique Nakshi Gold Bangles', 112000, 'assets/category_bangles.jpg')">
+                  ADD TO CART
+                </button>
+              </div>
+            </article>
+
+            <!-- Bestseller Card 2 -->
+            <article class="product-card bestseller-card">
+              <div class="prod-img-box">
+                <span class="prod-badge gold">BESTSELLER</span>
+                <button class="wishlist-toggle-btn" onclick="toggleWishlistItem(this, 'Élan Pearl Choker')" aria-label="Add to wishlist">♡</button>
+                <img src="assets/product_elan_1.jpg" alt="Élan Antique Pearl Choker" loading="lazy">
+              </div>
+              <div class="prod-details">
+                <div class="prod-meta">
+                  <span class="prod-tag">22K Pearl</span>
+                  <span class="prod-rating">★ 4.9</span>
+                </div>
+                <h3 class="prod-title">Élan Antique Pearl Choker</h3>
+                <div class="prod-price-row">
+                  <span class="prod-price">₹76,900</span>
+                  <span class="prod-mrp">₹85,000</span>
+                </div>
+                <button class="btn-add-cart" onclick="addToCart('Élan Antique Pearl Choker', 76900, 'assets/product_elan_1.jpg')">
+                  ADD TO CART
+                </button>
+              </div>
+            </article>
+
+            <!-- Bestseller Card 3 -->
+            <article class="product-card bestseller-card">
+              <div class="prod-img-box">
+                <span class="prod-badge gold">BESTSELLER</span>
+                <button class="wishlist-toggle-btn" onclick="toggleWishlistItem(this, 'Suvarna Mugappu Chain')" aria-label="Add to wishlist">♡</button>
+                <img src="assets/category_chains.jpg" alt="Suvarna Mugappu Gold Chain" loading="lazy">
+              </div>
+              <div class="prod-details">
+                <div class="prod-meta">
+                  <span class="prod-tag">22K Gold</span>
+                  <span class="prod-rating">★ 4.8</span>
+                </div>
+                <h3 class="prod-title">Suvarna Mugappu Gold Chain</h3>
+                <div class="prod-price-row">
+                  <span class="prod-price">₹32,400</span>
+                  <span class="prod-mrp">₹36,500</span>
+                </div>
+                <button class="btn-add-cart" onclick="addToCart('Suvarna Mugappu Gold Chain', 32400, 'assets/category_chains.jpg')">
+                  ADD TO CART
+                </button>
+              </div>
+            </article>
+
+            <!-- Bestseller Card 4 -->
+            <article class="product-card bestseller-card">
+              <div class="prod-img-box">
+                <span class="prod-badge gold">BESTSELLER</span>
+                <button class="wishlist-toggle-btn" onclick="toggleWishlistItem(this, 'Sitara Polki Chandbalis')" aria-label="Add to wishlist">♡</button>
+                <img src="assets/category_bridal.jpg" alt="Sitara Royal Polki Chandbalis" loading="lazy">
+              </div>
+              <div class="prod-details">
+                <div class="prod-meta">
+                  <span class="prod-tag">22K Polki</span>
+                  <span class="prod-rating">★ 4.9</span>
+                </div>
+                <h3 class="prod-title">Sitara Royal Polki Chandbalis</h3>
+                <div class="prod-price-row">
+                  <span class="prod-price">₹64,000</span>
+                  <span class="prod-mrp">₹72,000</span>
+                </div>
+                <button class="btn-add-cart" onclick="addToCart('Sitara Royal Polki Chandbalis', 64000, 'assets/category_bridal.jpg')">
+                  ADD TO CART
+                </button>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 7: TRUST SECTION (Compact 2×2 Grid)
+         ========================================================================== -->
+    <section class="section trust-section">
+      <div class="container">
+        
+        <div class="trust-grid-2x2">
+          
+          <div class="trust-card-compact">
+            <div class="trust-icon-box">🛡️</div>
+            <div class="trust-info">
+              <h4>✓ BIS Hallmarked</h4>
+              <p>100% 22K 916 pure gold with Govt. of India laser stamp.</p>
+            </div>
+          </div>
+
+          <div class="trust-card-compact">
+            <div class="trust-icon-box">💎</div>
+            <div class="trust-info">
+              <h4>✓ Certified Jewellery</h4>
+              <p>IGI & GIA laboratory certified diamonds & stones.</p>
+            </div>
+          </div>
+
+          <div class="trust-card-compact">
+            <div class="trust-icon-box">💳</div>
+            <div class="trust-info">
+              <h4>✓ Secure Payments</h4>
+              <p>UPI, Cards, NetBanking & 0% interest EMI options.</p>
+            </div>
+          </div>
+
+          <div class="trust-card-compact">
+            <div class="trust-icon-box">📦</div>
+            <div class="trust-info">
+              <h4>✓ Safe Delivery</h4>
+              <p>100% tamper-proof insured transit to your doorstep.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 8: BRIDAL SECTION (Stacked: IMAGE -> TEXT -> BUTTON)
+         ========================================================================== -->
+    <section class="section bridal-section" id="bridal">
+      <div class="container">
+        
+        <div class="bridal-card-stacked">
+          
+          <!-- 1. Indian Bridal Image -->
+          <div class="bridal-img-wrap">
+            <img 
+              src="assets/bridal_campaign.jpg" 
+              alt="South Indian bride wearing regal 22K gold wedding jewellery" 
+              class="bridal-img"
+              loading="lazy"
+            >
+            <div class="bridal-pill">KALYANAM · BRIDAL EDIT</div>
+          </div>
+
+          <!-- 2. Clear Text & 3. Button -->
+          <div class="bridal-text-wrap">
+            <span class="bridal-tag">FOR YOUR SPECIAL DAY</span>
+            <h2 class="bridal-heading">
+              YOUR SPECIAL DAY,<br>
+              YOUR TIMELESS JEWELLERY
+            </h2>
+            <p class="bridal-desc">
+              From majestic Lakshmi Kasu Harams and Nakshi Vaddanams to handcrafted bridal jhumkas, discover heirlooms crafted for a lifetime of love.
+            </p>
+            <a href="#categories" class="btn btn-bridal">
+              <span>SHOP BRIDAL</span>
+              <span class="btn-arrow">→</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 9: TRADITION & KARIGAR CRAFT (3-Step Karigar Journey)
+         ========================================================================== -->
+    <section class="section craft-section" id="craft">
+      <div class="container">
+        
+        <div class="section-head text-center">
+          <span class="section-tag">THE KARIGAR JOURNEY</span>
+          <h2 class="section-title">TRADITION & CRAFT</h2>
+          <div class="gold-line-center"></div>
+        </div>
+
+        <div class="craft-grid-3">
+          
+          <div class="craft-card">
+            <div class="craft-step">01</div>
+            <h3>DESIGN</h3>
+            <p>Form inspired by Dravidian temple carvings and auspicious South Indian motifs.</p>
+          </div>
+
+          <div class="craft-card">
+            <div class="craft-step">02</div>
+            <h3>CRAFT</h3>
+            <p>Generational master karigars sculpt certified 22K gold by hand with Nakshi chasing.</p>
+          </div>
+
+          <div class="craft-card">
+            <div class="craft-step">03</div>
+            <h3>FINISH</h3>
+            <p>Multi-stage antique polish, microscopic stone setting, and BIS hallmark laser stamping.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 10: CUSTOMER REVIEWS
+         ========================================================================== -->
+    <section class="section reviews-section" id="reviews">
+      <div class="container">
+        
+        <div class="section-head text-center">
+          <span class="section-tag">PATRON TESTIMONIALS</span>
+          <h2 class="section-title">LOVED BY OUR PATRONS</h2>
+          <div class="gold-line-center"></div>
+        </div>
+
+        <div class="reviews-grid-3">
+          
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-quote">
+              "The Lakshmi Kasu Haram we bought for my daughter's wedding was the centerpiece of the ceremony. Flawless finishing and 100% BIS hallmarked."
+            </p>
+            <div class="review-meta">
+              <strong>Priya R.</strong>
+              <span>Hyderabad · Verified Buyer</span>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-quote">
+              "The Nakshi peacock jhumkas look even better in real life than online. Prompt WhatsApp support and beautiful velvet packaging box."
+            </p>
+            <div class="review-meta">
+              <strong>Lakshmi K.</strong>
+              <span>Vijayawada · Verified Buyer</span>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-quote">
+              "Accurate gold weight certificate provided with clear breakdown of making charges. Safe 2-day insured courier to Bengaluru."
+            </p>
+            <div class="review-meta">
+              <strong>Sravani M.</strong>
+              <span>Bengaluru · Verified Buyer</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 11: NEWSLETTER SECTION
+         ========================================================================== -->
+    <section class="newsletter-section">
+      <div class="container text-center">
+        <span class="news-tag">PRIVILEGED PATRONS</span>
+        <h2 class="news-title">STAY IN THE LOOP</h2>
+        <p class="news-desc">Get notified of new collection drops, festival offers, and South Indian gold stories.</p>
+        
+        <form class="news-form" onsubmit="handleNewsletter(event)">
+          <input type="email" id="newsEmail" placeholder="Enter your email address" required>
+          <button type="submit" class="btn btn-subscribe">SUBSCRIBE →</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       MOBILE STICKY BOTTOM NAVIGATION BAR (Height 60–68px)
+       ⌂ Home  ◉ Categories  ♡ Wishlist  🛍 Cart  ♙ Account
+       ========================================================================== -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="#" class="bot-nav-item active" id="botNavHome">
+      <span class="bot-nav-icon">⌂</span>
+      <span class="bot-nav-label">Home</span>
+    </a>
+    <a href="#categories" class="bot-nav-item" id="botNavCategories">
+      <span class="bot-nav-icon">◉</span>
+      <span class="bot-nav-label">Categories</span>
+    </a>
+    <a href="#wishlist" class="bot-nav-item" id="botNavWishlist" onclick="toggleWishlistModal(event)">
+      <span class="bot-nav-icon relative">
+        ♡
+        <span class="bot-badge" id="botWishlistBadge">1</span>
+      </span>
+      <span class="bot-nav-label">Wishlist</span>
+    </a>
+    <a href="#cart" class="bot-nav-item" id="botNavCart" onclick="toggleCartDrawer(event)">
+      <span class="bot-nav-icon relative">
+        🛍
+        <span class="bot-badge" id="botCartBadge">2</span>
+      </span>
+      <span class="bot-nav-label">Cart</span>
+    </a>
+    <a href="#account" class="bot-nav-item" id="botNavAccount" onclick="openAccountModal(event)">
+      <span class="bot-nav-icon">♙</span>
+      <span class="bot-nav-label">Account</span>
+    </a>
+  </nav>
+
+  <!-- ==========================================================================
+       FOOTER (Mobile & Desktop)
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <div class="footer-col-brand">
+          <span class="footer-logo">LUMIÈRE</span>
+          <span class="footer-sublogo">FINE JEWELLERY</span>
+          <p class="footer-desc">
+            Handcrafted 22K gold & certified diamond heirlooms designed for weddings, festive milestones, and graceful everyday wear.
+          </p>
+          <div class="footer-hallmark-badge">🛡️ 100% BIS 916 Hallmarked Gold</div>
+        </div>
+
+        <div class="footer-col">
+          <h4>SHOP</h4>
+          <ul>
+            <li><a href="#categories">Necklaces & Harams</a></li>
+            <li><a href="#categories">Jhumkas & Earrings</a></li>
+            <li><a href="#categories">Gold Bangles & Kadas</a></li>
+            <li><a href="#categories">Solitaires & Rings</a></li>
+            <li><a href="#bridal">Bridal Collection</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>CUSTOMER CARE</h4>
+          <ul>
+            <li><a href="javascript:void(0)" onclick="openStoreModal(event)">Store Locator</a></li>
+            <li><a href="tel:+919849012345">📞 +91 98490 12345</a></li>
+            <li><a href="mailto:care@lumierejewels.in">✉️ care@lumierejewels.in</a></li>
+            <li><a href="#mainContent">15-Day Exchange Policy</a></li>
+            <li><a href="#mainContent">Complimentary Insured Delivery</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 LUMIÈRE FINE JEWELLERY. All Rights Reserved.</div>
+        <div class="payment-methods">UPI • RuPay • Visa • Mastercard • NetBanking • 0% EMI</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification element -->
+  <div class="toast-popup" id="toastPopup">Item added to cart!</div>
+
+  <!-- Cart Drawer Overlay -->
+  <div class="cart-drawer-modal" id="cartDrawer">
+    <div class="cart-overlay" onclick="toggleCartDrawer()"></div>
+    <div class="cart-panel">
+      <div class="cart-header">
+        <h3>YOUR SHOPPING BAG (<span id="cartTotalCount">2</span>)</h3>
+        <button class="cart-close-btn" onclick="toggleCartDrawer()">✕</button>
+      </div>
+      <div class="cart-items-list" id="cartItemsList">
+        <!-- Default cart items -->
+        <div class="cart-item-row" data-name="Lakshmi Kasu Mala Gold Necklace">
+          <img src="assets/category_necklace.jpg" alt="Lakshmi Kasu Mala">
+          <div class="cart-item-details">
+            <span class="cart-item-title">Lakshmi Kasu Mala Gold Necklace</span>
+            <span class="cart-item-meta">22K Gold · BIS 916</span>
+            <span class="cart-item-price">₹84,500</span>
+          </div>
+          <button class="cart-item-remove" onclick="removeCartItem(this, 84500)">✕</button>
+        </div>
+        <div class="cart-item-row" data-name="Temple Nakshi Peacock Jhumkas">
+          <img src="assets/category_earrings.jpg" alt="Temple Nakshi Peacock Jhumkas">
+          <div class="cart-item-details">
+            <span class="cart-item-title">Temple Nakshi Peacock Jhumkas</span>
+            <span class="cart-item-meta">22K Gold · BIS 916</span>
+            <span class="cart-item-price">₹48,900</span>
+          </div>
+          <button class="cart-item-remove" onclick="removeCartItem(this, 48900)">✕</button>
+        </div>
+      </div>
+      <div class="cart-footer">
+        <div class="cart-total-row">
+          <span>Subtotal:</span>
+          <span class="cart-total-amount" id="cartSubtotal">₹1,33,400</span>
+        </div>
+        <p class="cart-shipping-note">✓ Eligible for Complimentary Insured Shipping</p>
+        <button class="btn btn-checkout" onclick="alert('Redirecting to 100% Secure Checkout with UPI/Cards/EMI...')">
+          PROCEED TO CHECKOUT →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Javascript -->
+  <script src="app.js"></script>
+</body>
+</html>

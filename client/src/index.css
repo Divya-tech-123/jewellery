@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: #F8F4EC;
+    color: #2D2823;
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Plus Jakarta Sans', Inter, -apple-system, sans-serif;
+  }
+
+  /* Subtle Warm Organic Paper Texture Overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    mix-blend-mode: multiply;
+  }
+
+  ::selection {
+    background-color: #B58A45;
+    color: #FFFFFF;
+  }
+}
+
+@layer components {
+  /* Headings with Indian-friendly Display Serif */
+  .font-heading-hero {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  .font-heading-section {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+
+  /* Medium-sized, Touch-friendly Modern Indian Buttons (min 48px height on mobile) */
+  .btn-primary-indian {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 48px;
+    background-color: #2D2823;
+    color: #F8F4EC;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid #2D2823;
+    transition: all 300ms ease;
+  }
+
+  .btn-primary-indian:hover {
+    background-color: #B58A45;
+    border-color: #B58A45;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(181, 138, 69, 0.25);
+  }
+
+  .btn-secondary-indian {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 48px;
+    background-color: transparent;
+    color: #2D2823;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid #2D2823;
+    transition: all 300ms ease;
+  }
+
+  .btn-secondary-indian:hover {
+    background-color: #2D2823;
+    color: #F8F4EC;
+    border-color: #2D2823;
+  }
+
+  /* Subtle Gold Line Indicator */
+  .gold-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #B58A45, transparent);
+  }
+
+  /* Hide scrollbar on touch carousels while keeping swipe smooth */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Hero Carousel Animations */
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes heroSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroKenBurns {
+  0% {
+    transform: scale(1.0);
+  }
+  100% {
+    transform: scale(1.04);
+  }
+}
+
+.animate-fadeIn {
+  animation: heroFadeIn 600ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.animate-slideUp {
+  animation: heroSlideUp 650ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.animate-kenburns {
+  animation: heroKenBurns 8000ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeIn,
+  .animate-slideUp,
+  .animate-kenburns {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Refined Subtle Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #F8F4EC;
+}
+::-webkit-scrollbar-thumb {
+  background: #E5DAC8;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B58A45;
+}
