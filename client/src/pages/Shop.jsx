@@ -316,150 +316,70 @@ const Shop = () => {
               Reset Atelier Filters
             </button>
           </div>
-        ) : layoutMode === 'editorial' ? (
-          /* Editorial Alternating Exhibition Rhythm */
-          <div className="space-y-16">
-            {/* Render items in rhythmic groupings */}
-            {(() => {
-              const nodes = [];
-              let i = 0;
-              let groupIndex = 0;
+        ) : layoutMode === 'editorial' && products.length > 3 ? (
+          /* Editorial Flow with Curated Spotlight Break */
+          <div className="space-y-12 sm:space-y-16">
+            {/* First Set of Creations (Desktop: 3 per row, Tablet: 2, Mobile: 1) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+              {products.slice(0, 3).map((product) => (
+                <ProductCard
+                  key={product._id || product.id}
+                  product={product}
+                  onQuickView={onQuickView}
+                />
+              ))}
+            </div>
 
-              while (i < products.length) {
-                // Group A: 2-Column Wide Editorial Pair (items i, i+1)
-                const pair = products.slice(i, i + 2);
-                i += pair.length;
+            {/* Editorial Philosophy Spotlight Banner with Organic Rounded Silhouette */}
+            <div className="relative bg-lumiere-deep text-white p-8 sm:p-14 my-12 sm:my-16 rounded-[30px] overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10 shadow-[0_12px_40px_rgba(30,25,20,0.12)]">
+              <div className="relative z-10 max-w-xl">
+                <span className="text-[10px] uppercase font-semibold tracking-[0.25em] text-lumiere-gold block mb-3 font-sans">
+                  ATELIER PHILOSOPHY
+                </span>
+                <h3 className="font-serif text-2xl sm:text-4xl font-normal leading-snug mb-4">
+                  "Jewellery is wearable sculpture — crafted not for seasons, but for generations."
+                </h3>
+                <p className="text-xs text-[#DDD5CB]/80 font-light leading-relaxed mb-6 font-sans">
+                  Each Lumière creation undergoes 14 distinct inspection stages, verified by BIS laser hallmarking and certified by international gemological authorities.
+                </p>
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-lumiere-gold hover:text-white transition-colors"
+                >
+                  <span>Discover Our Goldsmithing Heritage</span>
+                  <span>→</span>
+                </Link>
+              </div>
 
-                nodes.push(
-                  <div key={`pair-${groupIndex}`} className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    {pair.map((product) => (
-                      <article
-                        key={product._id || product.id}
-                        className="group flex flex-col justify-between bg-lumiere-secondary/40 p-6 sm:p-8 border border-lumiere-border/60 hover:border-lumiere-gold/60 transition-all duration-500"
-                      >
-                        <div className="relative aspect-[1/1.05] overflow-hidden mb-6 bg-[#FAF7F2]">
-                          <Link to={`/product/${product.slug || product.id || product._id}`} className="block w-full h-full">
-                            <OptimizedImage
-                              src={product.images?.[0] || '/assets/product_elan_1.webp'}
-                              alt={product.name}
-                              sizes="half"
-                              loading="lazy"
-                              decoding="async"
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                              containerClassName="w-full h-full"
-                            />
-                          </Link>
-                          <span className="absolute top-4 left-4 text-[9px] uppercase tracking-widest px-3 py-1 bg-white/90 backdrop-blur-sm text-lumiere-charcoal font-semibold z-10">
-                            {product.category}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => onQuickView && onQuickView(product)}
-                            className="absolute bottom-4 right-4 px-4 py-2 bg-white/90 backdrop-blur-sm text-[10px] uppercase font-semibold tracking-wider text-lumiere-charcoal hover:bg-lumiere-text hover:text-white transition-colors z-10"
-                          >
-                            Quick View
-                          </button>
-                        </div>
+              <div className="relative z-10 w-full md:w-72 aspect-[4/4.8] rounded-[24px] overflow-hidden border border-white/20">
+                <OptimizedImage
+                  src="/assets/craftsmanship.webp"
+                  alt="Master Karigar Atelier"
+                  sizes="half"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                  containerClassName="w-full h-full"
+                />
+              </div>
+            </div>
 
-                        <div className="flex flex-col">
-                          <div className="flex items-baseline justify-between mb-2">
-                            <Link to={`/product/${product.slug || product.id || product._id}`}>
-                              <h3 className="font-serif text-2xl text-lumiere-text font-normal group-hover:text-lumiere-gold transition-colors">
-                                {product.name}
-                              </h3>
-                            </Link>
-                            <span className="font-serif text-lg font-medium text-lumiere-text">
-                              ₹{Number(product.price).toLocaleString('en-IN')}
-                            </span>
-                          </div>
-                          <p className="text-xs text-lumiere-light font-light leading-relaxed line-clamp-2 mb-4">
-                            {product.description}
-                          </p>
-                          <div className="flex items-center justify-between pt-4 border-t border-lumiere-border/60 text-[11px]">
-                            <span className="text-lumiere-bronze tracking-wider uppercase font-medium">
-                              {product.purity || product.material}
-                            </span>
-                            <Link
-                              to={`/product/${product.slug || product.id || product._id}`}
-                              className="inline-flex items-center gap-1 text-lumiere-text hover:text-lumiere-gold font-semibold uppercase tracking-wider"
-                            >
-                              <span>Explore Piece</span>
-                              <ArrowUpRight size={14} />
-                            </Link>
-                          </div>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                );
-
-                // Insert an Editorial Spotlight Break every 5 items
-                if (i >= 5 && groupIndex === 1) {
-                  nodes.push(
-                    <div
-                      key={`spotlight-${groupIndex}`}
-                      className="relative bg-lumiere-deep text-white p-8 sm:p-14 my-16 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10"
-                    >
-                      <div className="relative z-10 max-w-xl">
-                        <span className="text-[10px] uppercase font-semibold tracking-[0.25em] text-lumiere-gold block mb-3">
-                          ATELIER PHILOSOPHY
-                        </span>
-                        <h3 className="font-serif text-2xl sm:text-4xl font-normal leading-snug mb-4">
-                          "Jewellery is wearable sculpture — crafted not for seasons, but for generations."
-                        </h3>
-                        <p className="text-xs text-[#DDD5CB]/80 font-light leading-relaxed mb-6">
-                          Each Lumière creation undergoes 14 distinct inspection stages, verified by BIS laser hallmarking and certified by international gemological authorities.
-                        </p>
-                        <Link
-                          to="/about"
-                          className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-lumiere-gold hover:text-white transition-colors"
-                        >
-                          Discover Our Goldsmithing Heritage →
-                        </Link>
-                      </div>
-
-                      <div className="relative z-10 w-full md:w-72 aspect-[4/5] overflow-hidden border border-white/20">
-                        <OptimizedImage
-                          src="/assets/craftsmanship.webp"
-                          alt="Master Artisan"
-                          sizes="half"
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover"
-                          containerClassName="w-full h-full"
-                        />
-                      </div>
-                    </div>
-                  );
-                }
-
-                // Group B: 3-Column Product Trio (if items remain)
-                if (i < products.length) {
-                  const trio = products.slice(i, i + 3);
-                  i += trio.length;
-
-                  nodes.push(
-                    <div key={`trio-${groupIndex}`} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {trio.map((product) => (
-                        <ProductCard
-                          key={product._id || product.id}
-                          product={product}
-                          onQuickView={onQuickView}
-                        />
-                      ))}
-                    </div>
-                  );
-                }
-
-                groupIndex++;
-              }
-
-              return nodes;
-            })()}
+            {/* Remaining Creations (Desktop: 3 per row, Tablet: 2, Mobile: 1) */}
+            {products.length > 3 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+                {products.slice(3).map((product) => (
+                  <ProductCard
+                    key={product._id || product.id}
+                    product={product}
+                    onQuickView={onQuickView}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         ) : (
-          /* Standard Matrix Grid (4 col desktop, 3 col tablet, 2 col mobile) */
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
+          /* Standard 3-Column Desktop / 2-Column Tablet / 1-Column Mobile Responsive Grid */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
             {products.map((product) => (
               <ProductCard
                 key={product._id || product.id}

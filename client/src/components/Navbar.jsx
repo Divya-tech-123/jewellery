@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Heart, User, ShoppingBag, Menu, X, ChevronRight, ShieldCheck } from 'lucide-react';
+import { Search, Heart, User, ShoppingBag, Menu, X, ChevronRight, Sparkles } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
@@ -8,7 +8,6 @@ import { useAuth } from '../context/AuthContext';
 const Navbar = ({ onOpenSearch }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileSearchQuery, setMobileSearchQuery] = useState('');
   const { totalCount, openCart } = useCart();
   const { wishlistCount } = useWishlist();
   const { user, isAdmin } = useAuth();
@@ -17,13 +16,12 @@ const Navbar = ({ onOpenSearch }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 25);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile drawer on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
@@ -34,63 +32,59 @@ const Navbar = ({ onOpenSearch }) => {
     { name: 'Collections', path: '/collections' },
     { name: 'New Arrivals', path: '/shop?collection=New+Arrivals' },
     { name: 'Bridal', path: '/category/bridal' },
+    { name: 'Occasions', path: '/shop?collection=Festival' },
     { name: 'Offers', path: '/shop?collection=Offers' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
   ];
-
-  const handleMobileSearch = (e) => {
-    e.preventDefault();
-    if (mobileSearchQuery.trim()) {
-      navigate('/shop?search=' + encodeURIComponent(mobileSearchQuery.trim()));
-      setMobileMenuOpen(false);
-    }
-  };
 
   return (
     <>
       <header
-        className={`sticky top-0 left-0 w-full z-40 transition-all duration-300 ease-smooth ${
+        className={`sticky top-0 left-0 w-full z-40 transition-all duration-300 ease-out ${
           isScrolled
-            ? 'bg-lumiere-bg shadow-[0_2px_12px_rgba(45,40,35,0.06)] border-b border-lumiere-border/80 py-2 sm:py-3'
-            : 'bg-lumiere-bg/95 backdrop-blur-sm border-b border-lumiere-border/50 py-2.5 sm:py-3.5'
+            ? 'bg-[#FDFBF7]/95 backdrop-blur-md shadow-[0_4px_20px_rgba(45,40,35,0.04)] border-b border-lumiere-border/50 py-3 sm:py-3.5'
+            : 'bg-[#FDFBF7]/90 backdrop-blur-sm border-b border-lumiere-border/30 py-4 sm:py-5'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* =========================================================
-              MOBILE HEADER (Layout: ☰   LUMIERE   ♡   🛍)
-              ========================================================= */}
-          <div className="flex lg:hidden items-center justify-between h-12">
-            {/* Left: Clean Hamburger Menu Button */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          
+          {/* MOBILE HEADER */}
+          <div className="flex lg:hidden items-center justify-between h-11">
             <button
               type="button"
               className="p-2 -ml-2 text-lumiere-text hover:text-lumiere-gold transition-colors focus:outline-none"
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open Navigation Menu"
+              aria-label="Open Navigation"
             >
-              <Menu size={22} strokeWidth={1.8} />
+              <Menu size={22} strokeWidth={1.6} />
             </button>
 
-            {/* Center: Centered Brand Logo */}
             <div className="flex-1 text-center">
               <Link to="/" className="inline-block">
-                <span className="font-serif text-xl sm:text-2xl font-bold tracking-[0.18em] text-lumiere-text uppercase">
+                <span className="font-serif text-xl sm:text-2xl font-normal tracking-[0.2em] text-lumiere-text uppercase">
                   LUMIÈRE
                 </span>
-                <span className="block text-[8px] tracking-[0.24em] text-lumiere-gold font-medium -mt-1 uppercase">
+                <span className="block text-[8px] tracking-[0.28em] text-lumiere-gold font-medium -mt-1 uppercase">
                   FINE JEWELLERY
                 </span>
               </Link>
             </div>
 
-            {/* Right: Wishlist ♡ & Shopping Bag 🛍 */}
-            <div className="flex items-center gap-1.5 -mr-1">
+            <div className="flex items-center gap-1 -mr-1">
+              <button
+                type="button"
+                onClick={onOpenSearch}
+                className="p-2 text-lumiere-text hover:text-lumiere-gold transition-colors"
+                aria-label="Search"
+              >
+                <Search size={19} strokeWidth={1.6} />
+              </button>
+
               <Link
                 to="/wishlist"
                 className="p-2 text-lumiere-text hover:text-lumiere-gold transition-colors relative"
-                aria-label="Saved Wishlist"
+                aria-label="Wishlist"
               >
-                <Heart size={20} strokeWidth={1.8} />
+                <Heart size={19} strokeWidth={1.6} />
                 {wishlistCount > 0 && (
                   <span className="absolute top-1 right-1 bg-lumiere-accent text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">
                     {wishlistCount}
@@ -104,7 +98,7 @@ const Navbar = ({ onOpenSearch }) => {
                 className="p-2 text-lumiere-text hover:text-lumiere-gold transition-colors relative"
                 aria-label="Shopping Bag"
               >
-                <ShoppingBag size={20} strokeWidth={1.8} />
+                <ShoppingBag size={19} strokeWidth={1.6} />
                 {totalCount > 0 && (
                   <span className="absolute top-1 right-1 bg-lumiere-deep text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">
                     {totalCount}
@@ -114,200 +108,170 @@ const Navbar = ({ onOpenSearch }) => {
             </div>
           </div>
 
-          {/* =========================================================
-              DESKTOP HEADER (Layout: LOGO | NAV LINKS | ACTIONS)
-              ========================================================= */}
-          <div className="hidden lg:flex items-center justify-between h-14">
-            {/* Left: Brand Logo */}
-            <div className="flex items-center">
+          {/* DESKTOP HEADER: LEFT LOGO | CENTER NAV | RIGHT ACTIONS */}
+          <div className="hidden lg:flex items-center justify-between h-12">
+            
+            {/* LEFT: Logo */}
+            <div className="flex items-center min-w-[200px]">
               <Link to="/" className="inline-block group">
-                <span className="font-serif text-2xl xl:text-3xl font-bold tracking-[0.16em] text-lumiere-text uppercase group-hover:text-lumiere-gold transition-colors">
+                <span className="font-serif text-2xl xl:text-3xl font-normal tracking-[0.18em] text-lumiere-text uppercase group-hover:text-lumiere-gold transition-colors duration-300">
                   LUMIÈRE
                 </span>
-                <span className="block text-[9px] tracking-[0.22em] text-lumiere-gold font-medium uppercase -mt-1">
-                  FINE JEWELLERY
+                <span className="block text-[8.5px] tracking-[0.3em] text-lumiere-gold font-medium uppercase -mt-0.5">
+                  HAUTE JOAILLERIE
                 </span>
               </Link>
             </div>
 
-            {/* Center: Modern Indian Jewellery Navigation */}
-            <nav className="flex items-center gap-7 xl:gap-9 text-xs font-semibold tracking-wider uppercase">
+            {/* CENTER: Navigation Links with Growing Gold Underline */}
+            <nav className="flex items-center gap-7 xl:gap-9 text-[12px] font-medium tracking-[0.14em] uppercase font-sans">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.name}
                   to={link.path}
                   end={link.path === '/'}
                   className={({ isActive }) =>
-                    `transition-colors py-1 relative hover:text-lumiere-gold ${
-                      isActive ? 'text-lumiere-gold font-bold' : 'text-lumiere-text/90'
+                    `group relative py-1.5 transition-colors duration-300 ${
+                      isActive ? 'text-lumiere-gold font-semibold' : 'text-lumiere-text/90 hover:text-lumiere-gold'
                     }`
                   }
                 >
-                  {link.name}
+                  {({ isActive }) => (
+                    <>
+                      <span>{link.name}</span>
+                      {/* Growing Gold Underline */}
+                      <span
+                        className={`absolute bottom-0 left-0 h-[1.5px] bg-lumiere-gold transition-all duration-300 ease-out ${
+                          isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                        }`}
+                      />
+                    </>
+                  )}
                 </NavLink>
               ))}
             </nav>
 
-            {/* Right: Search, Account, Wishlist, Cart */}
-            <div className="flex items-center gap-5">
-              {/* Search */}
+            {/* RIGHT: Search, Account, Wishlist, Cart */}
+            <div className="flex items-center gap-5 xl:gap-6 min-w-[200px] justify-end">
+              
               <button
                 type="button"
                 onClick={onOpenSearch}
-                className="flex items-center gap-1.5 p-1.5 text-lumiere-text/80 hover:text-lumiere-gold transition-colors text-xs font-medium"
-                aria-label="Search Jewellery"
-                title="Search"
+                className="flex items-center gap-2 text-xs uppercase tracking-wider text-lumiere-text hover:text-lumiere-gold transition-colors duration-300 group"
+                aria-label="Search Collection"
               >
-                <Search size={18} strokeWidth={1.8} />
-                <span className="hidden xl:inline tracking-normal text-[11px] text-lumiere-muted">Search</span>
+                <Search size={17} strokeWidth={1.5} className="group-hover:scale-105 transition-transform" />
+                <span className="hidden xl:inline text-[11px] font-medium tracking-widest">SEARCH</span>
               </button>
 
-              {/* Account / Admin */}
               <Link
                 to={user ? (isAdmin ? '/admin' : '/account') : '/login'}
-                className="p-1.5 text-lumiere-text/80 hover:text-lumiere-gold transition-colors relative"
+                className="text-lumiere-text hover:text-lumiere-gold transition-colors p-1"
                 aria-label="Account"
-                title={user ? (isAdmin ? 'Admin Portal' : user.name) : 'Sign In'}
+                title={user ? `Signed in as ${user.name || 'Patron'}` : 'Sign In'}
               >
-                <User size={18} strokeWidth={1.8} />
-                {isAdmin && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-lumiere-gold rounded-full ring-2 ring-white" />
-                )}
+                <User size={18} strokeWidth={1.5} />
               </Link>
 
-              {/* Wishlist */}
               <Link
                 to="/wishlist"
-                className="p-1.5 text-lumiere-text/80 hover:text-lumiere-gold transition-colors relative"
+                className="text-lumiere-text hover:text-lumiere-gold transition-colors relative p-1"
                 aria-label="Wishlist"
-                title="Wishlist"
               >
-                <Heart size={18} strokeWidth={1.8} />
+                <Heart size={18} strokeWidth={1.5} />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-lumiere-accent text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  <span className="absolute -top-1 -right-1 bg-lumiere-accent text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">
                     {wishlistCount}
                   </span>
                 )}
               </Link>
 
-              {/* Shopping Bag / Cart */}
               <button
                 type="button"
                 onClick={openCart}
-                className="flex items-center gap-2 bg-lumiere-deep text-white px-3.5 py-2 text-xs font-medium tracking-wide hover:bg-lumiere-gold transition-all duration-200"
-                aria-label="Shopping Cart"
+                className="text-lumiere-text hover:text-lumiere-gold transition-colors relative p-1 flex items-center gap-1.5"
+                aria-label="Shopping Bag"
               >
-                <ShoppingBag size={15} strokeWidth={1.8} />
-                <span>Cart</span>
-                <span className="bg-white/20 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
-                  {totalCount}
+                <ShoppingBag size={18} strokeWidth={1.5} />
+                <span className="text-[11px] font-semibold tracking-wider font-sans">
+                  ({totalCount})
                 </span>
               </button>
+
             </div>
+
           </div>
+
         </div>
       </header>
 
-      {/* =========================================================
-          DEDICATED MOBILE DRAWER (Full navigation & quick search)
-          ========================================================= */}
+      {/* MOBILE FULL-SCREEN SLIDE MENU */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex lg:hidden">
-          {/* Backdrop */}
+        <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="fixed inset-0 bg-lumiere-deep/60 backdrop-blur-sm transition-opacity"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
             onClick={() => setMobileMenuOpen(false)}
           />
 
-          {/* Drawer Panel */}
-          <div className="relative w-4/5 max-w-sm bg-lumiere-bg h-full shadow-drawer flex flex-col z-10 overflow-y-auto">
-            {/* Drawer Header */}
-            <div className="flex justify-between items-center px-5 py-4 border-b border-lumiere-border bg-lumiere-cream/40">
-              <div>
-                <span className="font-serif text-xl font-bold tracking-wider text-lumiere-text">
-                  LUMIÈRE
-                </span>
-                <span className="block text-[8px] tracking-[0.2em] text-lumiere-gold font-semibold uppercase">
-                  SOUTH INDIAN JEWELLERY
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-1.5 text-lumiere-text/80 hover:text-lumiere-gold"
-                aria-label="Close Menu"
-              >
-                <X size={22} />
-              </button>
-            </div>
-
-            {/* Prominent Search Bar */}
-            <div className="p-4 border-b border-lumiere-border bg-white/70">
-              <form onSubmit={handleMobileSearch} className="relative">
-                <input
-                  type="text"
-                  placeholder="Search Jewellery (e.g. 22K Gold, Jhumkas)..."
-                  value={mobileSearchQuery}
-                  onChange={(e) => setMobileSearchQuery(e.target.value)}
-                  className="w-full bg-lumiere-bg border border-lumiere-border text-xs py-2.5 pl-9 pr-3 rounded-none focus:outline-none focus:border-lumiere-gold"
-                />
-                <Search size={16} className="absolute left-3 top-3 text-lumiere-muted" />
-              </form>
-            </div>
-
-            {/* Quick Category Chips */}
-            <div className="px-4 py-3 border-b border-lumiere-border/60 bg-lumiere-cream/30">
-              <span className="text-[10px] uppercase tracking-wider text-lumiere-muted font-bold block mb-2">
-                Popular Categories
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {['Rings', 'Earrings', 'Necklaces', 'Chains', 'Bangles', 'Pendants'].map((cat) => (
-                  <Link
-                    key={cat}
-                    to={'/shop?category=' + encodeURIComponent(cat)}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-[11px] bg-white border border-lumiere-border px-2.5 py-1 text-lumiere-text hover:border-lumiere-gold hover:text-lumiere-gold transition-colors"
-                  >
-                    {cat}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Main Menu Links */}
-            <nav className="flex flex-col py-3 text-xs font-semibold tracking-wide uppercase">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
+          <div className="relative w-4/5 max-w-sm h-full bg-[#FDFBF7] shadow-drawer z-10 flex flex-col justify-between p-6 sm:p-8 overflow-y-auto">
+            <div>
+              <div className="flex items-center justify-between pb-6 border-b border-lumiere-border/50 mb-6">
+                <div>
+                  <span className="font-serif text-xl font-normal tracking-[0.18em] text-lumiere-text uppercase block">
+                    LUMIÈRE
+                  </span>
+                  <span className="text-[8px] tracking-[0.25em] text-lumiere-gold font-medium uppercase">
+                    FINE JEWELLERY
+                  </span>
+                </div>
+                <button
+                  type="button"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between px-5 py-3 text-lumiere-text hover:bg-lumiere-cream/50 hover:text-lumiere-gold transition-colors border-b border-lumiere-border/40 min-h-[44px]"
+                  className="p-1.5 text-lumiere-text hover:text-lumiere-gold"
+                  aria-label="Close menu"
                 >
-                  <span>{link.name}</span>
-                  <ChevronRight size={15} className="text-lumiere-muted" />
-                </Link>
-              ))}
-            </nav>
-
-            {/* South Indian Hallmark & Trust Strip */}
-            <div className="mx-4 my-4 p-3 bg-white border border-lumiere-border/80 flex items-center gap-3">
-              <ShieldCheck size={26} className="text-lumiere-gold shrink-0" />
-              <div>
-                <span className="text-[11px] font-bold text-lumiere-text block">100% BIS 916 Hallmarked</span>
-                <span className="text-[10px] text-lumiere-muted block leading-tight">Govt. of India certified purity on every gold piece</span>
+                  <X size={20} />
+                </button>
               </div>
+
+              <nav className="flex flex-col gap-4">
+                {navLinks.map((link) => (
+                  <NavLink
+                    key={link.name}
+                    to={link.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `text-sm tracking-[0.16em] uppercase py-1.5 flex items-center justify-between transition-colors ${
+                        isActive ? 'text-lumiere-gold font-semibold' : 'text-lumiere-text hover:text-lumiere-gold'
+                      }`
+                    }
+                  >
+                    <span>{link.name}</span>
+                    <ChevronRight size={14} className="text-lumiere-muted/60" />
+                  </NavLink>
+                ))}
+              </nav>
             </div>
 
-            {/* Bottom CTA */}
-            <div className="p-4 mt-auto border-t border-lumiere-border bg-lumiere-cream/20">
+            <div className="pt-6 border-t border-lumiere-border/50 flex flex-col gap-3 text-xs tracking-wider uppercase text-lumiere-muted font-medium">
               <Link
-                to="/shop"
+                to={user ? '/account' : '/login'}
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full btn-primary-indian text-xs py-3 text-center block"
+                className="flex items-center gap-2 text-lumiere-text hover:text-lumiere-gold py-1"
               >
-                EXPLORE ALL JEWELLERY →
+                <User size={15} />
+                <span>{user ? 'My Account' : 'Sign In / Register'}</span>
+              </Link>
+              <Link
+                to="/wishlist"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2 text-lumiere-text hover:text-lumiere-gold py-1"
+              >
+                <Heart size={15} />
+                <span>Saved Wishlist ({wishlistCount})</span>
               </Link>
             </div>
+
           </div>
         </div>
       )}
