@@ -1,28 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { 
   ArrowRight, 
   ChevronLeft, 
   ChevronRight, 
-  ShieldCheck, 
-  Award, 
-  CreditCard, 
-  Truck, 
   Star, 
   Sparkles, 
-  Heart, 
-  ShoppingBag,
-  CheckCircle2,
-  Send
+  ShieldCheck, 
+  Award, 
+  Truck, 
+  Send,
+  Heart,
+  ShoppingBag
 } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import HeroCarousel from '../components/HeroCarousel';
+import CategoryCard from '../components/CategoryCard';
+import SectionHeading from '../components/SectionHeading';
 import OptimizedImage from '../components/OptimizedImage';
 import { getProducts } from '../services/productService';
-import { useCart } from '../context/CartContext';
-import { useWishlist } from '../context/WishlistContext';
 
-// Default authentic South Indian fallback products to guarantee immediate instant render
+// Default authentic fallback catalog to guarantee immediate instant render
 const defaultProducts = [
   {
     id: 'prod-1',
@@ -162,78 +161,64 @@ const defaultProducts = [
   }
 ];
 
-// 6 Categories with real jewellery images
+// Refined Categories with Circular Avatars
 const shopCategories = [
   { name: 'Rings', image: '/assets/product_celeste_1.webp', count: '48 Designs', link: '/shop?category=Rings' },
   { name: 'Earrings', image: '/assets/category_earrings.webp', count: '86 Designs', link: '/shop?category=Earrings' },
   { name: 'Necklaces', image: '/assets/category_necklace.webp', count: '64 Designs', link: '/shop?category=Necklaces' },
-  { name: 'Chains', image: '/assets/category_chains.webp', count: '32 Designs', link: '/shop?category=Chains' },
   { name: 'Bangles', image: '/assets/category_bangles.webp', count: '54 Designs', link: '/shop?category=Bangles' },
+  { name: 'Chains', image: '/assets/category_chains.webp', count: '32 Designs', link: '/shop?category=Chains' },
   { name: 'Pendants', image: '/assets/category_pendants.webp', count: '40 Designs', link: '/shop?category=Pendants' },
 ];
 
-// 4 Occasions (2-Column Grid)
-const occasions = [
-  {
-    title: 'WEDDING',
-    subtitle: 'Bridal Sets & Harams',
-    image: '/assets/category_bridal.webp',
-    link: '/category/bridal',
-    button: 'EXPLORE BRIDAL →',
-  },
-  {
-    title: 'FESTIVAL',
-    subtitle: 'Auspicious 22K Gold',
-    image: '/assets/occasion_festival.webp',
-    link: '/shop?collection=Festival',
-    button: 'EXPLORE FESTIVE →',
-  },
-  {
-    title: 'EVERYDAY',
-    subtitle: 'Lightweight Daily Wear',
-    image: '/assets/category_everyday.webp',
-    link: '/shop?collection=Everyday',
-    button: 'EXPLORE EVERYDAY →',
-  },
-  {
-    title: 'PARTY',
-    subtitle: 'Diamonds & Cocktails',
-    image: '/assets/hero_campaign.webp',
-    link: '/shop?collection=Party',
-    button: 'EXPLORE PARTY →',
-  },
-];
-
-// Customer Reviews with South Indian context
+// Customer Reviews
 const customerReviews = [
   {
     id: 1,
     name: 'Priya R.',
     city: 'Hyderabad',
     rating: 5,
-    date: 'August 2026',
-    comment: 'The Lakshmi Kasu Haram we bought for my daughter\'s wedding was the centerpiece of the ceremony. Flawless finishing and 100% BIS hallmarked.',
-    item: 'Purchased: Lakshmi Kasu Mala'
+    comment: "The Lakshmi Kasu Haram we bought for my daughter's wedding was the centerpiece of the ceremony. Flawless finishing and 100% BIS hallmarked.",
+    item: 'Lakshmi Kasu Mala'
   },
   {
     id: 2,
     name: 'Lakshmi K.',
     city: 'Vijayawada',
     rating: 5,
-    date: 'July 2026',
-    comment: 'The Nakshi peacock jhumkas look even better in real life than online. Prompt WhatsApp support and beautiful velvet packaging box.',
-    item: 'Purchased: Temple Nakshi Jhumkas'
+    comment: 'The Nakshi peacock jhumkas look even better in real life than online. Prompt WhatsApp concierge and exquisite velvet packaging.',
+    item: 'Temple Nakshi Jhumkas'
   },
   {
     id: 3,
     name: 'Sravani M.',
     city: 'Bengaluru',
     rating: 5,
-    date: 'August 2026',
-    comment: 'Accurate gold weight certificate provided with clear breakdown of making charges. Safe 2-day insured courier to Bengaluru.',
-    item: 'Purchased: Suvarna Mugappu Chain'
+    comment: 'Accurate gold certificate with clear breakdown of making charges. Safe 2-day insured courier to Bengaluru with tamper-proof seal.',
+    item: 'Suvarna Mugappu Chain'
   }
 ];
+
+// Motion animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.6, ease: [0.25, 1, 0.5, 1] } 
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  }
+};
 
 const Home = () => {
   const { onQuickView } = useOutletContext() || {};
@@ -241,10 +226,7 @@ const Home = () => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
 
-  // Carousel refs for smooth horizontal scroll
   const categoryScrollRef = useRef(null);
-  const bestsellerScrollRef = useRef(null);
-  const reviewsScrollRef = useRef(null);
 
   useEffect(() => {
     const loadApiProducts = async () => {
@@ -254,16 +236,16 @@ const Home = () => {
           setProducts(res.products);
         }
       } catch (err) {
-        console.warn('Using embedded South Indian catalog products');
+        // Fallback already present in state
       }
     };
     loadApiProducts();
   }, []);
 
-  const handleScroll = (ref, direction) => {
-    if (ref.current) {
-      const scrollAmount = direction === 'left' ? -280 : 280;
-      ref.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  const handleCategoryScroll = (direction) => {
+    if (categoryScrollRef.current) {
+      const scrollAmount = direction === 'left' ? -260 : 260;
+      categoryScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
@@ -276,510 +258,482 @@ const Home = () => {
     }
   };
 
-  // Products split for sections
   const newArrivals = products.slice(0, 4);
-  const bestsellers = products.length >= 8 ? products.slice(2, 8) : products;
+  const bestsellers = products.length >= 8 ? products.slice(2, 6) : products.slice(0, 4);
 
   return (
-    <div className="flex flex-col bg-lumiere-bg text-lumiere-text overflow-x-hidden pb-16 lg:pb-0">
+    <div className="flex flex-col bg-[#FDFBF7] text-lumiere-text overflow-x-hidden">
       
-      {/* ==========================================================================
-          1. REDESIGNED HERO SECTION (Automatic Responsive Banner Carousel)
-          ========================================================================== */}
+      {/* 1. HERO CAMPAIGN CAROUSEL */}
       <HeroCarousel />
 
-      {/* ==========================================================================
-          2. SHOP BY CATEGORY (Immediately after Hero: ~2.5 cards swipe carousel)
-          ========================================================================== */}
-      <section className="py-8 sm:py-12 bg-white border-b border-lumiere-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 2. SHOP BY CATEGORY (Refined Horizontal Circular Showcase) */}
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={fadeInUp}
+        className="py-20 sm:py-24 bg-white border-b border-lumiere-border/40"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           
-          {/* Section Header */}
-          <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <div className="flex items-end justify-between mb-10 sm:mb-12">
             <div>
-              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-lumiere-gold block mb-0.5">
-                DISCOVER DESIGNS
+              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em] text-lumiere-gold block mb-1.5">
+                CURATED ATELIER
               </span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lumiere-text uppercase">
-                SHOP BY CATEGORY
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal text-lumiere-text uppercase">
+                Shop by Category
               </h2>
             </div>
-            {/* Desktop Arrows */}
-            <div className="hidden lg:flex items-center gap-2">
+
+            <div className="hidden sm:flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => handleScroll(categoryScrollRef, 'left')}
-                className="p-2 border border-lumiere-border hover:border-lumiere-gold hover:text-lumiere-gold transition-colors"
-                aria-label="Scroll left"
+                onClick={() => handleCategoryScroll('left')}
+                className="w-9 h-9 flex items-center justify-center border border-lumiere-border/80 hover:border-lumiere-gold hover:text-lumiere-gold transition-colors duration-300"
+                aria-label="Scroll categories left"
               >
-                <ChevronLeft size={18} />
+                <ChevronLeft size={17} strokeWidth={1.5} />
               </button>
               <button
                 type="button"
-                onClick={() => handleScroll(categoryScrollRef, 'right')}
-                className="p-2 border border-lumiere-border hover:border-lumiere-gold hover:text-lumiere-gold transition-colors"
-                aria-label="Scroll right"
+                onClick={() => handleCategoryScroll('right')}
+                className="w-9 h-9 flex items-center justify-center border border-lumiere-border/80 hover:border-lumiere-gold hover:text-lumiere-gold transition-colors duration-300"
+                aria-label="Scroll categories right"
               >
-                <ChevronRight size={18} />
+                <ChevronRight size={17} strokeWidth={1.5} />
               </button>
             </div>
           </div>
 
-          {/* Categories: ~2.5 visible on mobile phone swipe */}
           <div
             ref={categoryScrollRef}
-            className="flex lg:grid lg:grid-cols-6 gap-3 sm:gap-4 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pb-2 -mx-4 px-4 sm:mx-0 sm:px-0"
+            className="flex sm:grid sm:grid-cols-3 md:grid-cols-6 gap-6 sm:gap-6 md:gap-8 overflow-x-auto no-scrollbar scroll-smooth snap-x pb-4 -mx-4 px-4 sm:mx-0 sm:px-0"
           >
             {shopCategories.map((cat) => (
-              <Link
-                key={cat.name}
-                to={cat.link}
-                className="flex-shrink-0 w-[122px] xs:w-[130px] sm:w-[150px] lg:w-auto snap-start bg-lumiere-bg border border-lumiere-border rounded p-2.5 flex flex-col items-center text-center hover:border-lumiere-gold hover:shadow-sm transition-all"
-              >
-                {/* Category Image */}
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden bg-lumiere-cream border border-lumiere-border mb-2">
-                  <OptimizedImage
-                    src={cat.image}
-                    alt={cat.name}
-                    sizes="category-avatar"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover hover:scale-108 transition-transform duration-500 ease-out"
-                    containerClassName="w-full h-full rounded-full"
-                  />
-                </div>
-
-                {/* Category Title & Arrow */}
-                <span className="font-serif text-xs sm:text-sm font-semibold text-lumiere-text flex items-center gap-1">
-                  <span>{cat.name}</span>
-                  <span className="text-[10px] text-lumiere-gold">→</span>
-                </span>
-                <span className="text-[10px] text-lumiere-muted mt-0.5">
-                  {cat.count}
-                </span>
-              </Link>
+              <div key={cat.name} className="flex-shrink-0 w-[120px] sm:w-auto snap-start">
+                <CategoryCard
+                  title={cat.name}
+                  count={cat.count}
+                  image={cat.image}
+                  link={cat.link}
+                />
+              </div>
             ))}
           </div>
+
         </div>
-      </section>
+      </motion.section>
 
-      {/* ==========================================================================
-          3. NEW ARRIVALS (Strictly 2-col mobile, 4-col desktop)
-          ========================================================================== */}
-      <section className="py-8 sm:py-12 bg-lumiere-bg border-b border-lumiere-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 3. NEW ARRIVALS (Luxury Editorial Grid, No Box Containers) */}
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={fadeInUp}
+        className="py-24 sm:py-28 bg-[#FDFBF7]"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           
-          <div className="flex items-end justify-between mb-4 sm:mb-6">
-            <div>
-              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-lumiere-gold block mb-0.5">
-                JUST LAUNCHED
-              </span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lumiere-text uppercase">
-                NEW ARRIVALS
-              </h2>
-              <p className="text-xs sm:text-sm text-lumiere-muted font-normal mt-0.5">
-                Fresh designs you'll love.
-              </p>
-            </div>
-            <Link
-              to="/shop?sort=newest"
-              className="text-xs font-bold text-lumiere-gold-dark hover:text-lumiere-text uppercase tracking-wider transition-colors pb-0.5 border-b border-lumiere-gold"
-            >
-              VIEW ALL →
-            </Link>
-          </div>
+          <SectionHeading
+            eyebrow="AUTUMN / WINTER 2026"
+            title="New Arrivals"
+            subtitle="Intricately sculpted in certified 22K gold, reflecting centuries of South Indian artistry infused with timeless silhouettes."
+          />
 
-          {/* Product Grid: 2 columns mobile, 4 columns desktop */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+          <motion.div 
+            variants={staggerContainer}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 mb-14"
+          >
             {newArrivals.map((product) => (
               <ProductCard
-                key={product._id || product.id}
+                key={product.id || product._id}
                 product={product}
                 onQuickView={onQuickView}
               />
             ))}
-          </div>
-        </div>
-      </section>
+          </motion.div>
 
-      {/* ==========================================================================
-          4. SHOP BY OCCASION (2-col grid, ~160–190px tall cards)
-          ========================================================================== */}
-      <section className="py-8 sm:py-12 bg-white border-b border-lumiere-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <Link
+              to="/shop?collection=New+Arrivals"
+              className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.18em] uppercase text-lumiere-text hover:text-lumiere-gold pb-1 border-b border-lumiere-text hover:border-lumiere-gold transition-all duration-300 group"
+            >
+              <span>DISCOVER ALL NEW ARRIVALS</span>
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
+          </div>
+
+        </div>
+      </motion.section>
+
+      {/* 4. SHOP BY OCCASION (Editorial Asymmetric Layout) */}
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={fadeInUp}
+        className="py-24 sm:py-28 bg-white border-y border-lumiere-border/40"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           
-          <div className="text-center max-w-xl mx-auto mb-5 sm:mb-8">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-lumiere-gold block mb-0.5">
-              CURATED CELEBRATIONS
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lumiere-text uppercase">
-              SHOP BY OCCASION
-            </h2>
-            <div className="w-12 h-0.5 bg-lumiere-gold mx-auto mt-2" />
-          </div>
+          <SectionHeading
+            eyebrow="TIMELESS CELEBRATIONS"
+            title="Shop by Occasion"
+            subtitle="Curated jewellery suites tailored for the sacred rituals, festive gatherings, and treasured milestones of life."
+          />
 
-          {/* 2-Column Occasion Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-            {occasions.map((occ) => (
-              <Link
-                key={occ.title}
-                to={occ.link}
-                className="group relative h-[175px] sm:h-[220px] lg:h-[260px] rounded overflow-hidden border border-lumiere-border shadow-sm block"
-              >
-                <OptimizedImage
-                  src={occ.image}
-                  alt={occ.title}
-                  sizes="occasion-card"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
-                  containerClassName="w-full h-full"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3 sm:p-4 text-white">
-                  <h3 className="font-serif text-sm sm:text-base font-bold tracking-wider uppercase">
-                    {occ.title}
-                  </h3>
-                  <p className="text-[10px] text-lumiere-gold-light font-medium mt-0.5">
-                    {occ.subtitle} →
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================================================
-          5. FEATURED COLLECTION BANNER (Compact, 280–360px on mobile)
-          ========================================================================== */}
-      <section className="py-8 sm:py-12 bg-lumiere-bg border-b border-lumiere-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-[#241E18] to-[#382F26] text-white rounded-lg border border-lumiere-gold/30 p-5 sm:p-8 lg:p-10 shadow-md min-h-[280px] sm:min-h-[320px] flex flex-col justify-center relative overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-              
-              <div className="lg:col-span-7 flex flex-col justify-center">
-                <span className="text-[10px] font-bold tracking-widest uppercase text-lumiere-gold-light mb-1 block">
-                  ✦ SOUTH INDIAN ARTISTRY
-                </span>
-
-                <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold uppercase leading-tight mb-2">
-                  HERITAGE COLLECTION
-                </h2>
-
-                <p className="font-serif italic text-sm sm:text-base text-lumiere-cream mb-2">
-                  Tradition, crafted for today.
-                </p>
-
-                <p className="text-xs sm:text-sm text-white/80 leading-relaxed max-w-lg mb-4 font-light">
-                  Intricately hand-carved Nakshi temple motifs sculpted in pure 22K certified gold with master karigar artistry.
-                </p>
-
-                <div>
-                  <Link
-                    to="/collections"
-                    className="inline-flex items-center gap-2 bg-lumiere-gold hover:bg-lumiere-gold-dark text-white font-bold text-xs px-5 py-2.5 rounded min-h-[44px] uppercase tracking-wider transition-colors"
-                  >
-                    <span>DISCOVER</span>
-                    <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="hidden sm:block lg:col-span-5">
-                <div className="relative aspect-[4/3] rounded overflow-hidden border border-white/20 shadow-sm bg-black">
-                  <OptimizedImage
-                    src="/assets/category_gold.webp"
-                    alt="Heritage Gold Jewellery"
-                    sizes="half"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover opacity-90 hover:scale-104 transition-transform duration-700 ease-out"
-                    containerClassName="w-full h-full"
-                  />
-                  <div className="absolute bottom-2 right-2 bg-black/80 text-white text-[9px] font-bold px-2 py-0.5 uppercase tracking-widest z-10">
-                    BIS 916 CERTIFIED
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================================================
-          6. BESTSELLERS (Horizontal Swipe Carousel: 1.5–2 Cards on mobile)
-          ========================================================================== */}
-      <section className="py-8 sm:py-12 bg-white border-b border-lumiere-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="flex items-center justify-between mb-4 sm:mb-6">
-            <div>
-              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-lumiere-gold block mb-0.5">
-                PATRON FAVORITES
-              </span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lumiere-text uppercase">
-                BESTSELLERS
-              </h2>
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
             
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => handleScroll(bestsellerScrollRef, 'left')}
-                className="p-2 border border-lumiere-border hover:border-lumiere-gold hover:text-lumiere-gold transition-colors"
-                aria-label="Previous bestsellers"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button
-                type="button"
-                onClick={() => handleScroll(bestsellerScrollRef, 'right')}
-                className="p-2 border border-lumiere-border hover:border-lumiere-gold hover:text-lumiere-gold transition-colors"
-                aria-label="Next bestsellers"
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
-          </div>
-
-          {/* Bestseller Carousel: ~1.5–2 cards on mobile */}
-          <div
-            ref={bestsellerScrollRef}
-            className="flex gap-3 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pb-2 -mx-4 px-4 sm:mx-0 sm:px-0"
-          >
-            {bestsellers.map((prod) => (
-              <div
-                key={prod._id || prod.id}
-                className="flex-shrink-0 w-[200px] xs:w-[220px] sm:w-[260px] lg:w-[calc(25%-18px)] snap-start"
-              >
-                <ProductCard product={prod} onQuickView={onQuickView} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================================================
-          7. TRUST SECTION (Compact 2×2 Grid)
-          ========================================================================== */}
-      <section className="py-6 sm:py-10 bg-lumiere-bg border-b border-lumiere-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
-            
-            <div className="bg-white border border-lumiere-border p-3 sm:p-4 rounded flex flex-col justify-center">
-              <div className="text-xl mb-1">🛡️</div>
-              <h4 className="font-sans text-xs sm:text-sm font-bold text-lumiere-text uppercase">
-                ✓ BIS Hallmarked
-              </h4>
-              <p className="text-[11px] text-lumiere-muted leading-tight mt-0.5">
-                100% 22K 916 pure gold with Govt. of India laser stamp.
-              </p>
-            </div>
-
-            <div className="bg-white border border-lumiere-border p-3 sm:p-4 rounded flex flex-col justify-center">
-              <div className="text-xl mb-1">💎</div>
-              <h4 className="font-sans text-xs sm:text-sm font-bold text-lumiere-text uppercase">
-                ✓ Certified Gems
-              </h4>
-              <p className="text-[11px] text-lumiere-muted leading-tight mt-0.5">
-                IGI & GIA laboratory certified diamonds & stones.
-              </p>
-            </div>
-
-            <div className="bg-white border border-lumiere-border p-3 sm:p-4 rounded flex flex-col justify-center">
-              <div className="text-xl mb-1">💳</div>
-              <h4 className="font-sans text-xs sm:text-sm font-bold text-lumiere-text uppercase">
-                ✓ Secure Payments
-              </h4>
-              <p className="text-[11px] text-lumiere-muted leading-tight mt-0.5">
-                UPI, Netbanking, Cards & 0% EMI options.
-              </p>
-            </div>
-
-            <div className="bg-white border border-lumiere-border p-3 sm:p-4 rounded flex flex-col justify-center">
-              <div className="text-xl mb-1">📦</div>
-              <h4 className="font-sans text-xs sm:text-sm font-bold text-lumiere-text uppercase">
-                ✓ Safe Delivery
-              </h4>
-              <p className="text-[11px] text-lumiere-muted leading-tight mt-0.5">
-                Tamper-proof insured transit to your doorstep.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================================================
-          8. BRIDAL SECTION (Stacked: IMAGE -> TEXT -> BUTTON)
-          ========================================================================== */}
-      <section className="py-8 sm:py-12 bg-white border-b border-lumiere-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-lumiere-bg border border-lumiere-border rounded-lg overflow-hidden flex flex-col lg:grid lg:grid-cols-12 items-center">
-            
-            {/* 1. Indian Bridal Image */}
-            <div className="w-full lg:col-span-6 relative aspect-[16/11] sm:aspect-[16/9] lg:aspect-square overflow-hidden bg-lumiere-cream">
+            {/* Dominant Large Feature: WEDDING (col 7) */}
+            <Link
+              to="/category/bridal"
+              className="group lg:col-span-7 relative h-[440px] sm:h-[520px] lg:h-[600px] overflow-hidden bg-lumiere-cream/40 flex flex-col justify-end p-6 sm:p-10 block shadow-subtle"
+            >
               <OptimizedImage
-                src="/assets/bridal_campaign.webp"
-                alt="South Indian bride wearing regal 22K gold jewellery"
-                sizes="half"
+                src="/assets/category_bridal.webp"
+                alt="Royal Wedding Collection"
+                sizes="occasion-large"
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover object-top"
-                containerClassName="w-full h-full"
+                className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                containerClassName="absolute inset-0 w-full h-full"
+                style={{ objectPosition: 'center 20%' }}
               />
-              <div className="absolute top-2.5 left-2.5 bg-black/80 text-white text-[9px] font-bold px-2 py-0.5 uppercase tracking-wider rounded z-10">
-                KALYANAM · BRIDAL EDIT
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
+
+              <div className="relative z-10 text-white">
+                <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.25em] text-lumiere-gold-light uppercase block mb-2">
+                  SACRED HEIRLOOMS
+                </span>
+                <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-white mb-2 leading-tight">
+                  The Wedding Edit
+                </h3>
+                <p className="text-xs sm:text-sm text-white/80 font-light max-w-md mb-4 line-clamp-2 font-sans">
+                  Opulent Kasu Malas, temple harams, and handcrafted vaddanams designed for the quintessential South Indian bride.
+                </p>
+                <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.16em] uppercase text-white group-hover:text-lumiere-gold-light transition-colors duration-300">
+                  <span>Explore Bridal Edit</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-300" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Asymmetric Right Stack: FESTIVAL, PARTY, EVERYDAY (col 5) */}
+            <div className="lg:col-span-5 flex flex-col gap-6 sm:gap-8 justify-between">
+              
+              {/* FESTIVAL */}
+              <Link
+                to="/shop?collection=Festival"
+                className="group relative h-[210px] sm:h-[250px] lg:h-[285px] overflow-hidden bg-lumiere-cream/40 flex flex-col justify-end p-6 sm:p-8 block shadow-subtle"
+              >
+                <OptimizedImage
+                  src="/assets/occasion_festival.webp"
+                  alt="Auspicious Festive Gold"
+                  sizes="occasion-small"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                  containerClassName="absolute inset-0 w-full h-full"
+                  style={{ objectPosition: 'center 30%' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
+
+                <div className="relative z-10 text-white">
+                  <span className="text-[9px] sm:text-[10px] font-semibold tracking-[0.22em] text-lumiere-gold-light uppercase block mb-1">
+                    AUSPICIOUS GOLD
+                  </span>
+                  <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mb-1.5">
+                    Festive Celebrations
+                  </h3>
+                  <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wider uppercase text-white/90 group-hover:text-lumiere-gold-light transition-colors duration-300">
+                    <span>Discover Festive</span>
+                    <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
+                </div>
+              </Link>
+
+              {/* 2-Column Split: PARTY & EVERYDAY */}
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 h-[210px] sm:h-[250px] lg:h-[285px]">
+                
+                {/* PARTY */}
+                <Link
+                  to="/shop?collection=Party"
+                  className="group relative h-full overflow-hidden bg-lumiere-cream/40 flex flex-col justify-end p-4 sm:p-5 block shadow-subtle"
+                >
+                  <OptimizedImage
+                    src="/assets/hero_campaign.webp"
+                    alt="Cocktail and Party Jewellery"
+                    sizes="(max-width: 1024px) 50vw, 20vw"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                    containerClassName="absolute inset-0 w-full h-full"
+                    style={{ objectPosition: 'center 15%' }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
+                  
+                  <div className="relative z-10 text-white">
+                    <span className="text-[9px] font-medium tracking-widest text-lumiere-gold-light uppercase block mb-0.5">
+                      SOLITAIRES
+                    </span>
+                    <h3 className="font-serif text-lg sm:text-xl font-normal text-white mb-1">
+                      Party Edit
+                    </h3>
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-white/80 group-hover:text-white">
+                      Explore →
+                    </span>
+                  </div>
+                </Link>
+
+                {/* EVERYDAY */}
+                <Link
+                  to="/shop?collection=Everyday"
+                  className="group relative h-full overflow-hidden bg-lumiere-cream/40 flex flex-col justify-end p-4 sm:p-5 block shadow-subtle"
+                >
+                  <OptimizedImage
+                    src="/assets/category_everyday.webp"
+                    alt="Everyday Minimal Gold"
+                    sizes="(max-width: 1024px) 50vw, 20vw"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                    containerClassName="absolute inset-0 w-full h-full"
+                    style={{ objectPosition: 'center 20%' }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
+                  
+                  <div className="relative z-10 text-white">
+                    <span className="text-[9px] font-medium tracking-widest text-lumiere-gold-light uppercase block mb-0.5">
+                      MINIMALIST
+                    </span>
+                    <h3 className="font-serif text-lg sm:text-xl font-normal text-white mb-1">
+                      Daily Wear
+                    </h3>
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-white/80 group-hover:text-white">
+                      Explore →
+                    </span>
+                  </div>
+                </Link>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </motion.section>
+
+      {/* 5. KARIGAR HERITAGE & CRAFTSMANSHIP */}
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={fadeInUp}
+        className="py-24 sm:py-28 bg-[#F8F4EC]"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            
+            <div className="lg:col-span-5 relative">
+              <div className="relative aspect-[4/5] w-full overflow-hidden shadow-[0_12px_36px_rgba(45,40,35,0.08)] bg-white">
+                <OptimizedImage
+                  src="/assets/craftsmanship.webp"
+                  alt="Master Karigar crafting Nakshi gold"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                  containerClassName="w-full h-full"
+                  style={{ objectPosition: 'center 20%' }}
+                />
+              </div>
+
+              <div className="absolute -bottom-6 -right-4 sm:right-6 bg-white p-5 border border-lumiere-border/60 shadow-elevated max-w-[200px]">
+                <span className="text-[10px] font-semibold text-lumiere-gold uppercase tracking-[0.2em] block mb-1">
+                  HALLMARK OF PURITY
+                </span>
+                <p className="text-xs text-lumiere-text font-serif leading-snug">
+                  100% BIS 916 Laser-Hallmarked Gold
+                </p>
               </div>
             </div>
 
-            {/* 2. Text & 3. Button */}
-            <div className="w-full lg:col-span-6 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
-              <span className="text-[10px] font-bold tracking-widest uppercase text-lumiere-gold block mb-1">
-                FOR YOUR SPECIAL DAY
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em] text-lumiere-gold block mb-2">
+                THE KARIGAR JOURNEY
               </span>
-
-              <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-lumiere-text uppercase leading-tight mb-2">
-                YOUR SPECIAL DAY,<br />
-                YOUR TIMELESS JEWELLERY
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-lumiere-text uppercase leading-tight mb-6">
+                Tradition, Devotion & Sacred Gold
               </h2>
-
-              <p className="text-xs sm:text-sm text-lumiere-muted leading-relaxed mb-4">
-                Discover bridal pieces inspired by tradition and crafted for today's celebrations. From opulent Kasu Malas and temple Vaddanams to handcrafted jhumkas, create memories that last forever.
+              <p className="text-xs sm:text-sm text-lumiere-muted font-light leading-relaxed mb-8 max-w-xl font-sans">
+                Each Lumière creation is born in our private atelier through the hands of generational master karigars. Preserving ancient South Indian temple jewellery sculpting, Nakshi chasing, and openwork filigree techniques passed down across dynasties.
               </p>
 
-              <div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-lumiere-border/60">
+                <div>
+                  <span className="font-serif text-2xl font-light text-lumiere-gold block mb-1">01</span>
+                  <h4 className="font-serif text-sm font-medium text-lumiere-text uppercase mb-1">Sacred Form</h4>
+                  <p className="text-xs text-lumiere-muted font-light leading-relaxed">
+                    Iconography inspired by temple sanctums and heritage motifs.
+                  </p>
+                </div>
+
+                <div>
+                  <span className="font-serif text-2xl font-light text-lumiere-gold block mb-1">02</span>
+                  <h4 className="font-serif text-sm font-medium text-lumiere-text uppercase mb-1">Nakshi Handcraft</h4>
+                  <p className="text-xs text-lumiere-muted font-light leading-relaxed">
+                    Chased entirely by hand using certified 22K hallmarked gold.
+                  </p>
+                </div>
+
+                <div>
+                  <span className="font-serif text-2xl font-light text-lumiere-gold block mb-1">03</span>
+                  <h4 className="font-serif text-sm font-medium text-lumiere-text uppercase mb-1">Laser Hallmark</h4>
+                  <p className="text-xs text-lumiere-muted font-light leading-relaxed">
+                    Laser stamped with BIS 916 hallmark and lifetime buyback.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-10">
                 <Link
-                  to="/category/bridal"
-                  className="inline-flex items-center gap-2 bg-lumiere-deep hover:bg-lumiere-gold-dark text-white font-bold text-xs px-6 py-3 rounded min-h-[48px] uppercase tracking-wider transition-colors shadow-sm"
+                  to="/about"
+                  className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.18em] uppercase text-lumiere-text hover:text-lumiere-gold pb-1 border-b border-lumiere-text hover:border-lumiere-gold transition-all duration-300 group"
                 >
-                  <span>SHOP BRIDAL</span>
-                  <ArrowRight size={15} />
+                  <span>Explore The Atelier Story</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
               </div>
+
             </div>
 
           </div>
+
         </div>
-      </section>
+      </motion.section>
 
-      {/* ==========================================================================
-          9. TRADITION & KARIGAR CRAFT (3-Step Karigar Storytelling)
-          ========================================================================== */}
-      <section className="py-8 sm:py-12 bg-lumiere-bg border-b border-lumiere-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 6. SIGNATURE BESTSELLERS */}
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={fadeInUp}
+        className="py-24 sm:py-28 bg-[#FDFBF7]"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           
-          <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-lumiere-gold block mb-0.5">
-              THE KARIGAR JOURNEY
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lumiere-text uppercase">
-              TRADITION & CRAFT
-            </h2>
-            <div className="w-12 h-0.5 bg-lumiere-gold mx-auto mt-2" />
+          <SectionHeading
+            eyebrow="SIGNATURE CREATIONS"
+            title="Patron Favourites"
+            subtitle="Our most coveted 22K gold harams, nakshi jhumkas, and certified solitaire diamond rings celebrated across generations."
+          />
+
+          <motion.div 
+            variants={staggerContainer}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 mb-14"
+          >
+            {bestsellers.map((product) => (
+              <ProductCard
+                key={product.id || product._id}
+                product={product}
+                onQuickView={onQuickView}
+              />
+            ))}
+          </motion.div>
+
+          <div className="text-center">
+            <Link
+              to="/shop?bestseller=true"
+              className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.18em] uppercase text-lumiere-text hover:text-lumiere-gold pb-1 border-b border-lumiere-text hover:border-lumiere-gold transition-all duration-300 group"
+            >
+              <span>Explore All Bestsellers</span>
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-5">
-            
-            <div className="bg-white border border-lumiere-border p-4 sm:p-5 rounded flex flex-col">
-              <span className="font-serif text-2xl font-bold text-lumiere-gold/50 mb-1">01</span>
-              <h3 className="font-serif text-sm sm:text-base font-bold text-lumiere-text uppercase mb-1">DESIGN</h3>
-              <p className="text-xs text-lumiere-muted leading-relaxed">
-                Form inspired by ancient temple carvings and traditional South Indian motifs with modern ergonomics.
-              </p>
-            </div>
-
-            <div className="bg-white border border-lumiere-border p-4 sm:p-5 rounded flex flex-col">
-              <span className="font-serif text-2xl font-bold text-lumiere-gold/50 mb-1">02</span>
-              <h3 className="font-serif text-sm sm:text-base font-bold text-lumiere-text uppercase mb-1">CRAFT</h3>
-              <p className="text-xs text-lumiere-muted leading-relaxed">
-                Generational master karigars sculpt certified 22K gold by hand, chasing intricate Nakshi filigree.
-              </p>
-            </div>
-
-            <div className="bg-white border border-lumiere-border p-4 sm:p-5 rounded flex flex-col">
-              <span className="font-serif text-2xl font-bold text-lumiere-gold/50 mb-1">03</span>
-              <h3 className="font-serif text-sm sm:text-base font-bold text-lumiere-text uppercase mb-1">FINISH</h3>
-              <p className="text-xs text-lumiere-muted leading-relaxed">
-                Multi-stage antique polish, microscopic stone setting, and BIS hallmark laser stamping.
-              </p>
-            </div>
-
-          </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* ==========================================================================
-          10. CUSTOMER REVIEWS
-          ========================================================================== */}
-      <section className="py-8 sm:py-12 bg-white border-b border-lumiere-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 7. PATRON REVIEWS */}
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={fadeInUp}
+        className="py-20 sm:py-24 bg-white border-t border-lumiere-border/40"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           
-          <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-lumiere-gold block mb-0.5">
-              PATRON TESTIMONIALS
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lumiere-text uppercase">
-              LOVED BY OUR PATRONS
-            </h2>
-            <div className="w-12 h-0.5 bg-lumiere-gold mx-auto mt-2" />
-          </div>
+          <SectionHeading
+            eyebrow="HEIRLOOMS CHERISHED"
+            title="Patron Testimonials"
+            subtitle="Reflections from patrons who have entrusted Lumière with their most auspicious milestones."
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
             {customerReviews.map((rev) => (
               <div
                 key={rev.id}
-                className="bg-lumiere-bg border border-lumiere-border p-4 sm:p-5 rounded flex flex-col justify-between"
+                className="flex flex-col justify-between p-6 sm:p-8 bg-[#FAF8F5] border border-lumiere-border/40"
               >
                 <div>
-                  <div className="flex items-center gap-1 text-lumiere-gold mb-2">
+                  <div className="flex items-center gap-1 text-lumiere-gold mb-4">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={14} className="fill-lumiere-gold" />
+                      <Star key={i} size={13} className="fill-lumiere-gold" />
                     ))}
                   </div>
-                  <p className="text-xs text-lumiere-text italic leading-relaxed mb-3">
+                  <p className="text-xs sm:text-sm text-lumiere-text font-serif italic leading-relaxed mb-6">
                     "{rev.comment}"
                   </p>
                 </div>
-                <div className="pt-2.5 border-t border-lumiere-border/60 flex items-center justify-between text-[11px]">
-                  <strong>{rev.name}, {rev.city}</strong>
-                  <span className="text-lumiere-muted text-[10px]">Verified Buyer</span>
+
+                <div className="pt-4 border-t border-lumiere-border/50 flex items-center justify-between text-[11px]">
+                  <div>
+                    <strong className="font-serif text-xs font-medium text-lumiere-text block">
+                      {rev.name}
+                    </strong>
+                    <span className="text-lumiere-muted text-[10px]">{rev.city} · Verified Patron</span>
+                  </div>
+                  <span className="text-[9px] uppercase tracking-wider text-lumiere-gold font-medium">
+                    {rev.item}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
 
         </div>
-      </section>
+      </motion.section>
 
-      {/* ==========================================================================
-          11. NEWSLETTER
-          ========================================================================== */}
-      <section className="py-8 sm:py-10 bg-lumiere-deep text-white">
+      {/* 8. NEWSLETTER */}
+      <section className="py-20 bg-lumiere-deep text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-lumiere-gold block mb-1">
-            PRIVILEGED PATRONS
+          <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-lumiere-gold block mb-2">
+            THE PRIVILEGED CIRCLE
           </span>
-          <h2 className="font-serif text-xl sm:text-2xl font-bold uppercase mb-1.5">
-            STAY IN THE LOOP
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal uppercase mb-3 text-white">
+            Stay in the Loop
           </h2>
-          <p className="text-xs text-lumiere-cream/80 max-w-md mx-auto mb-4">
-            Get updates on new collections, festival offers and South Indian gold stories.
+          <p className="text-xs sm:text-sm text-lumiere-cream/70 font-light max-w-md mx-auto mb-8 leading-relaxed font-sans">
+            Receive private salon previews, festival heritage updates, and invitations to bespoke jewellery unveilings.
           </p>
 
-          <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-md mx-auto">
+          <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
             <input
               type="email"
               required
-              placeholder="Enter your email"
+              placeholder="Enter your email address"
               value={newsletterEmail}
               onChange={(e) => setNewsletterEmail(e.target.value)}
-              className="w-full sm:flex-1 bg-white/10 border border-white/20 text-white text-xs px-3.5 py-2.5 min-h-[44px] rounded placeholder:text-white/50 focus:outline-none focus:border-lumiere-gold"
+              className="w-full sm:flex-1 bg-white/5 border border-white/20 text-white text-xs px-4 py-3 min-h-[48px] placeholder:text-white/40 focus:outline-none focus:border-lumiere-gold transition-colors font-sans"
             />
             <button
               type="submit"
-              className="w-full sm:w-auto bg-lumiere-gold hover:bg-lumiere-gold-dark text-white text-xs font-bold px-5 py-2.5 min-h-[44px] rounded uppercase tracking-wider transition-colors shrink-0 flex items-center justify-center gap-1.5"
+              className="w-full sm:w-auto bg-lumiere-gold hover:bg-lumiere-gold-dark text-white text-xs font-medium px-7 py-3 min-h-[48px] uppercase tracking-[0.14em] transition-colors shrink-0 flex items-center justify-center gap-2"
             >
               <span>SUBSCRIBE</span>
               <Send size={13} />
@@ -787,8 +741,8 @@ const Home = () => {
           </form>
 
           {newsletterSuccess && (
-            <div className="mt-3 text-xs font-medium text-lumiere-gold">
-              ✨ Thank you for subscribing!
+            <div className="mt-4 text-xs font-medium text-lumiere-gold animate-fadeIn">
+              ✓ Thank you for subscribing to Lumière Atelier updates.
             </div>
           )}
         </div>

@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { toWebp, generateSrcSet, getSizes, getVariant } from '../utils/imageHelpers';
+import { toWebp, generateSrcSet, getSizes } from '../utils/imageHelpers';
 
 /**
  * Reusable Optimized Image Component
  * Features:
- * - Automatic WebP format conversion
- * - Responsive srcSet (400w, 800w, 1200w) & intelligent sizes
+ * - High-fidelity WebP format delivery
+ * - 4-tier responsive srcSet (320w, 640w, 960w, 1200w) & accurate sizes
  * - Native lazy loading & async decoding
- * - High-priority LCP loading support (fetchpriority="high")
- * - Layout-shift prevention with shimmer placeholder
- * - Graceful error fallback
+ * - High-priority LCP loading support (fetchpriority='high' and loading='eager')
+ * - Layout-shift prevention with shimmer / low-res placeholder & explicit aspect-ratio
+ * - Graceful fallback
  */
 const OptimizedImage = ({
   src,
   srcSet,
   sizes,
-  alt = 'Lumière Fine Jewellery',
+  alt = 'LumiÃ¨re Fine Jewellery',
   width,
   height,
   priority = false,
@@ -39,11 +39,11 @@ const OptimizedImage = ({
   const normalizedSrc = toWebp(rawSrc);
 
   // Auto-generate responsive srcSet if not provided and not in error state
-  const computedSrcSet = srcSet !== undefined 
-    ? srcSet 
+  const computedSrcSet = srcSet !== undefined
+    ? srcSet
     : (hasError ? '' : generateSrcSet(normalizedSrc));
 
-  // Determine sizes
+  // Determine sizes descriptor
   const computedSizes = sizes ? getSizes(sizes) : (computedSrcSet ? getSizes('product-card') : undefined);
 
   // Determine loading strategy
@@ -72,11 +72,11 @@ const OptimizedImage = ({
       className={`relative overflow-hidden ${containerClassName}`}
       style={containerStyle}
     >
-      {/* Subtle Shimmer / Warm Luxury Placeholder while loading */}
+      {/* Warm Luxury Shimmer Placeholder while loading */}
       {showPlaceholder && !isLoaded && (
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[#F7F4EE] animate-pulse pointer-events-none transition-opacity duration-300"
+          className="absolute inset-0 bg-[#F6F2EB] animate-pulse pointer-events-none transition-opacity duration-300 z-0"
         />
       )}
 
@@ -93,8 +93,8 @@ const OptimizedImage = ({
         fetchPriority={priority ? 'high' : undefined}
         onLoad={handleImageLoad}
         onError={handleImageError}
-        className={`w-full h-full transition-opacity duration-500 ease-out ${
-          isLoaded || priority ? 'opacity-100' : 'opacity-0'
+        className={`w-full h-full relative z-[1] transition-all duration-500 ease-out ${
+          isLoaded || priority ? 'opacity-100 filter-none' : 'opacity-0 blur-sm scale-[1.02]'
         } ${className}`}
         style={imgStyle}
         {...restProps}

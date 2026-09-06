@@ -4,10 +4,7 @@ import {
   ArrowRight, 
   ChevronLeft, 
   ChevronRight, 
-  CheckCircle2, 
-  Sparkles,
-  Pause,
-  Play
+  CheckCircle2
 } from 'lucide-react';
 import { 
   getActiveBanners, 
@@ -29,7 +26,7 @@ const HeroCarousel = () => {
   const resumeTimerRef = useRef(null);
   const containerRef = useRef(null);
 
-  // Subscribe to banner & settings changes dynamically (from Admin panel updates)
+  // Subscribe to dynamic banner & settings changes
   useEffect(() => {
     const handleBannersUpdate = () => {
       const active = getActiveBanners();
@@ -59,7 +56,7 @@ const HeroCarousel = () => {
     if (target < 0) target = totalBanners - 1;
     if (target >= totalBanners) target = 0;
     setCurrentIndex(target);
-    setTimeout(() => setIsAnimating(false), 600);
+    setTimeout(() => setIsAnimating(false), 500);
   }, [totalBanners, isAnimating]);
 
   const nextSlide = useCallback(() => {
@@ -70,23 +67,22 @@ const HeroCarousel = () => {
     goToSlide(currentIndex - 1);
   }, [goToSlide, currentIndex]);
 
-  // Pause and temporary resume delay on manual interaction
   const triggerManualInteraction = useCallback(() => {
     setIsPaused(true);
     if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
     resumeTimerRef.current = setTimeout(() => {
       setIsPaused(false);
-    }, settings.resumeDelay || 5000);
+    }, settings.resumeDelay || 6000);
   }, [settings.resumeDelay]);
 
-  // Handle automatic rotation
+  // Autoplay management
   useEffect(() => {
     if (totalBanners <= 1 || isPaused) {
       if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
       return;
     }
 
-    const intervalTime = Math.max(3000, settings.autoplayInterval || 4500);
+    const intervalTime = Math.max(3500, settings.autoplayInterval || 5000);
     autoplayTimerRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % totalBanners);
     }, intervalTime);
@@ -96,27 +92,7 @@ const HeroCarousel = () => {
     };
   }, [totalBanners, isPaused, settings.autoplayInterval]);
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (containerRef.current && containerRef.current.contains(document.activeElement)) {
-        if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          prevSlide();
-          triggerManualInteraction();
-        } else if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          nextSlide();
-          triggerManualInteraction();
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [nextSlide, prevSlide, triggerManualInteraction]);
-
-  // Preload next carousel slide image in background for instant seamless transitions
+  // Intelligent background preloading of ONLY the immediate next slide
   useEffect(() => {
     if (totalBanners <= 1) return;
     const nextIndex = (currentIndex + 1) % totalBanners;
@@ -126,9 +102,9 @@ const HeroCarousel = () => {
       const nextImgSrc = isMobile
         ? (nextBanner.mobileImage || nextBanner.desktopImage)
         : nextBanner.desktopImage;
-      const normalized = toWebp(nextImgSrc);
+      const targetSrc = getVariant(nextImgSrc, isMobile ? 640 : 1200);
       const preloader = new Image();
-      preloader.src = normalized;
+      preloader.src = targetSrc;
     }
   }, [currentIndex, banners, totalBanners]);
 
@@ -149,12 +125,9 @@ const HeroCarousel = () => {
       return;
     }
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 45;
-    const isRightSwipe = distance < -45;
-
-    if (isLeftSwipe) {
+    if (distance > 45) {
       nextSlide();
-    } else if (isRightSwipe) {
+    } else if (distance < -45) {
       prevSlide();
     }
     triggerManualInteraction();
@@ -166,271 +139,186 @@ const HeroCarousel = () => {
 
   const currentBanner = banners[currentIndex] || banners[0];
 
-  // Theme styling helpers
-  const getThemePillClass = (theme) => {
-    switch (theme) {
-      case 'bridal-crimson':
-        return 'text-rose-900 border-rose-200/80 bg-rose-50/70';
-      case 'festive-maroon':
-        return 'text-amber-950 border-amber-300/80 bg-amber-50/80';
-      case 'luxury-offer':
-        return 'text-amber-900 border-amber-300/90 bg-amber-50/90';
-      default:
-        return 'text-lumiere-gold border-lumiere-border bg-lumiere-cream/40';
-    }
-  };
-
-  const getThemeGradient = (theme) => {
-    switch (theme) {
-      case 'bridal-crimson':
-        return 'from-[#FCF7F3] via-[#FAF4ED] to-[#F8F2E8]';
-      case 'festive-maroon':
-        return 'from-[#FAF4EB] via-[#F8F2E6] to-[#F5EEDF]';
-      case 'luxury-offer':
-        return 'from-[#FDFBF7] via-[#F8F4EC] to-[#F3EDE2]';
-      default:
-        return 'from-[#F9F5EE] via-[#F8F4EC] to-[#F4EFE6]';
-    }
-  };
-
   return (
     <section 
       ref={containerRef}
       tabIndex={0}
       aria-roledescription="carousel"
-      aria-label="Promotional Jewellery Campaigns"
-      className="relative w-full bg-lumiere-bg border-b border-lumiere-border/70 overflow-hidden select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-lumiere-gold"
+      aria-label="Lumière High Jewellery Showcase"
+      className="relative w-full bg-gradient-to-b from-[#FBF9F4] via-[#F8F4EC] to-[#F5EFE4] overflow-hidden select-none focus:outline-none"
       onMouseEnter={() => settings.pauseOnHover && setIsPaused(true)}
       onMouseLeave={() => settings.pauseOnHover && setIsPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background Accent Ambient Glow */}
-      <div className={`absolute inset-0 bg-gradient-to-b ${getThemeGradient(currentBanner.theme)} transition-colors duration-700 ease-smooth`} />
-
-      {/* Main Container */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         
-        {/* =========================================================================
-            DESKTOP CAROUSEL VIEW (Height: 650–720px, Split 45% Text / 55% Image)
-            ========================================================================= */}
-        <div className="hidden lg:grid lg:grid-cols-12 gap-8 xl:gap-12 items-center min-h-[650px] max-h-[720px] py-10">
+        {/* DESKTOP EDITORIAL HERO */}
+        <div className="hidden lg:grid lg:grid-cols-12 gap-10 xl:gap-16 items-center min-h-[640px] max-h-[720px] py-12">
           
-          {/* Left Column: Text Content & Actions (~45-50% width) */}
-          <div className="lg:col-span-6 xl:col-span-6 flex flex-col justify-center pr-4 xl:pr-6 z-10">
+          <div className="lg:col-span-6 flex flex-col justify-center pr-2 z-10">
             
-            {/* 1. Eyebrow / Collection Tag with Gold Dot */}
             <div 
               key={`eyebrow-${currentIndex}`}
-              className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-lumiere-gold uppercase mb-3 animate-fadeIn"
+              className="inline-flex items-center gap-2.5 text-[11px] font-semibold tracking-[0.25em] text-lumiere-gold uppercase mb-4 animate-fadeIn"
             >
-              <span className="w-2 h-2 rounded-full bg-lumiere-gold animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-lumiere-gold" />
               <span>{currentBanner.eyebrow || '22K BIS 916 GOLD'}</span>
             </div>
 
-            {/* 2. Main Title */}
             <h1 
               key={`title-${currentIndex}`}
-              className="font-serif text-[42px] xl:text-[52px] font-bold text-lumiere-text leading-[1.08] tracking-tight mb-4 uppercase whitespace-pre-line animate-slideUp"
+              className="font-serif text-[44px] xl:text-[54px] font-normal text-lumiere-text leading-[1.08] tracking-normal mb-5 whitespace-pre-line animate-slideUp"
             >
               {currentBanner.title}
             </h1>
 
-            {/* 3. Description */}
             <p 
               key={`desc-${currentIndex}`}
-              className="text-[15px] xl:text-base text-lumiere-muted font-normal leading-relaxed max-w-lg mb-8 animate-fadeIn"
+              className="text-[15px] xl:text-[16px] text-lumiere-muted font-light leading-relaxed max-w-md mb-8 animate-fadeIn font-sans"
             >
               {currentBanner.description}
             </p>
 
-            {/* 4. Action Buttons */}
             <div 
               key={`cta-${currentIndex}`}
-              className="flex items-center gap-4 mb-8 animate-fadeIn"
+              className="flex items-center gap-4 mb-10 animate-fadeIn"
             >
               <Link 
                 to={currentBanner.primaryBtnLink || '/shop'} 
-                className="btn-primary-indian shadow-sm min-h-[48px] px-7 rounded-md group"
+                className="btn-primary-indian rounded-none min-h-[48px] px-8 text-xs tracking-[0.14em] group shadow-sm"
               >
                 <span>{currentBanner.primaryBtnText || 'SHOP COLLECTION'}</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
 
               {currentBanner.secondaryBtnText && (
                 <Link 
                   to={currentBanner.secondaryBtnLink || '/collections'} 
-                  className="btn-secondary-indian min-h-[48px] px-6 rounded-md group"
+                  className="btn-secondary-indian rounded-none min-h-[48px] px-7 text-xs tracking-[0.14em] group"
                 >
                   <span>{currentBanner.secondaryBtnText}</span>
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
               )}
             </div>
 
-            {/* 5. Trust Badges Checkline */}
-            <div className="flex items-center gap-6 pt-6 border-t border-lumiere-border/80 text-xs text-lumiere-muted font-medium">
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 size={16} className="text-lumiere-gold" />
+            <div className="flex items-center gap-6 pt-6 border-t border-lumiere-border/60 text-xs text-lumiere-muted font-light">
+              <div className="flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-lumiere-gold" />
                 <span>100% BIS 916 Hallmarked</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 size={16} className="text-lumiere-gold" />
-                <span>Free Insured Delivery</span>
+              <div className="flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-lumiere-gold" />
+                <span>Insured Doorstep Delivery</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 size={16} className="text-lumiere-gold" />
+              <div className="flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-lumiere-gold" />
                 <span>Lifetime Exchange</span>
               </div>
             </div>
 
           </div>
 
-          {/* Right Column: Large Jewellery Image Focus (~50–55% width) */}
-          <div className="lg:col-span-6 xl:col-span-6 relative flex items-center justify-center">
-            
-            {/* Visual Frame & Shadow */}
-            <div className="relative w-full h-[540px] xl:h-[580px] rounded-lg overflow-hidden bg-lumiere-cream border border-lumiere-border shadow-elevated group">
+          <div className="lg:col-span-6 relative flex items-center justify-center">
+            <div className="relative w-full h-[520px] xl:h-[560px] overflow-hidden bg-lumiere-cream/40 border border-lumiere-border/60 shadow-[0_8px_30px_rgba(45,40,35,0.06)] group">
               
-              {/* Animated Banner Image */}
               <OptimizedImage
                 key={`img-desktop-${currentIndex}`}
                 src={currentBanner.desktopImage}
-                alt={currentBanner.eyebrow + ' - ' + currentBanner.title.replace('\n', ' ')}
+                alt={currentBanner.eyebrow + ' - ' + currentBanner.title}
                 priority={currentIndex === 0}
                 loading={currentIndex === 0 ? 'eager' : 'lazy'}
                 sizes="hero-desktop"
-                className="w-full h-full object-cover transition-all duration-700 ease-out animate-kenburns"
+                className="w-full h-full object-cover transition-transform duration-1000 ease-out animate-kenburns"
                 containerClassName="w-full h-full"
                 style={{ objectPosition: currentBanner.imagePosition || 'center 15%' }}
               />
 
-              {/* Top/Bottom Subtle Gradient Shading */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10 pointer-events-none" />
-
-              {/* Floating 22K Gold Authenticity Badge */}
-              <div className="absolute top-5 right-5 bg-white/95 backdrop-blur-md px-3.5 py-2 border border-lumiere-border shadow-sm text-center rounded">
-                <span className="text-[10px] font-bold text-lumiere-gold tracking-[0.16em] block uppercase">
+              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 border border-lumiere-border/50 text-center shadow-subtle">
+                <span className="text-[9px] font-semibold text-lumiere-gold tracking-[0.2em] block uppercase">
                   {currentBanner.badgeText ? currentBanner.badgeText.split('·')[0].trim() : '22K GOLD'}
-                </span>
-                <span className="text-[9px] text-lumiere-text font-semibold uppercase tracking-wider block mt-0.5">
-                  {currentBanner.badgeText && currentBanner.badgeText.includes('·') 
-                    ? currentBanner.badgeText.split('·')[1].trim() 
-                    : 'BIS 916 CERTIFIED'}
                 </span>
               </div>
 
-              {/* Slide Counter Overlay */}
-              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-mono tracking-widest px-2.5 py-1 rounded">
+              <div className="absolute bottom-4 left-4 bg-black/40 backdrop-blur-md text-white text-[10px] font-mono tracking-widest px-2.5 py-1">
                 0{currentIndex + 1} / 0{totalBanners}
               </div>
 
             </div>
-
           </div>
 
         </div>
 
-        {/* =========================================================================
-            MOBILE CAROUSEL VIEW (Stacked Banner Layout: Dominant Image Top, Content Below)
-            Max Height ~600–700px
-            ========================================================================= */}
-        <div className="lg:hidden flex flex-col pt-3 pb-6">
+        {/* MOBILE HERO */}
+        <div className="lg:hidden flex flex-col pt-4 pb-8">
           
-          {/* 1. Mobile Jewellery Image Dominant Section (~310–340px) */}
-          <div className="relative w-full h-[310px] sm:h-[350px] overflow-hidden bg-lumiere-cream border border-lumiere-border rounded-lg shadow-sm mb-4">
-            
+          <div className="relative w-full h-[320px] sm:h-[380px] overflow-hidden bg-lumiere-cream/40 border border-lumiere-border/60 mb-5 shadow-subtle">
             <OptimizedImage
               key={`img-mobile-${currentIndex}`}
               src={currentBanner.mobileImage || currentBanner.desktopImage}
-              alt={currentBanner.eyebrow + ' - ' + currentBanner.title.replace('\n', ' ')}
+              alt={currentBanner.eyebrow + ' - ' + currentBanner.title}
               priority={currentIndex === 0}
               loading={currentIndex === 0 ? 'eager' : 'lazy'}
               sizes="hero-mobile"
-              className="w-full h-full object-cover transition-all duration-500 ease-out"
+              className="w-full h-full object-cover"
               containerClassName="w-full h-full"
               style={{ objectPosition: currentBanner.imagePosition || 'center 15%' }}
             />
 
-            {/* Mobile Image Badge */}
-            <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 border border-lumiere-border rounded shadow-sm text-left leading-tight">
-              <span className="text-[10px] font-bold text-lumiere-gold tracking-wider uppercase block">
-                {currentBanner.badgeText || '22K GOLD · BIS 916'}
-              </span>
-              <span className="text-[8.5px] font-medium text-lumiere-muted uppercase block">
-                AUTHENTIC SOUTH INDIAN CRAFT
+            <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-1 border border-lumiere-border/50 text-left shadow-subtle">
+              <span className="text-[9px] font-semibold text-lumiere-gold tracking-widest uppercase block">
+                {currentBanner.badgeText || '22K BIS 916 GOLD'}
               </span>
             </div>
-
-            {/* Mobile Slide Badge */}
-            <div className="absolute top-3 right-3 bg-black/55 backdrop-blur-sm text-white text-[9px] font-mono tracking-wider px-2 py-0.5 rounded">
-              0{currentIndex + 1} / 0{totalBanners}
-            </div>
-
           </div>
 
-          {/* 2. Collection Eyebrow Label */}
           <div 
             key={`mob-eyebrow-${currentIndex}`}
-            className="inline-flex items-center gap-1.5 mb-1.5 animate-fadeIn"
+            className="inline-flex items-center gap-1.5 mb-2 animate-fadeIn"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-lumiere-gold" />
-            <span className="text-xs font-bold tracking-wider text-lumiere-gold uppercase">
+            <span className="text-[11px] font-semibold tracking-[0.2em] text-lumiere-gold uppercase">
               {currentBanner.eyebrow || '22K BIS 916 GOLD'}
             </span>
           </div>
 
-          {/* 3. Mobile Heading */}
           <h1 
             key={`mob-title-${currentIndex}`}
-            className="font-serif text-[28px] xs:text-[32px] sm:text-[36px] font-bold text-lumiere-text leading-tight tracking-tight mb-2 uppercase whitespace-pre-line animate-slideUp"
+            className="font-serif text-[30px] sm:text-[36px] font-normal text-lumiere-text leading-tight mb-2.5 whitespace-pre-line animate-slideUp"
           >
             {currentBanner.title}
           </h1>
 
-          {/* 4. Mobile Description */}
           <p 
             key={`mob-desc-${currentIndex}`}
-            className="text-[14px] text-lumiere-muted font-normal leading-relaxed mb-4 line-clamp-2 animate-fadeIn"
+            className="text-[14px] text-lumiere-muted font-light leading-relaxed mb-5 line-clamp-2 animate-fadeIn font-sans"
           >
             {currentBanner.description}
           </p>
 
-          {/* 5. Mobile Primary CTA (Strictly 48px height, touch-friendly) */}
-          <div className="w-full">
+          <div className="w-full mb-4">
             <Link 
               to={currentBanner.primaryBtnLink || '/shop'} 
-              className="w-full h-[48px] bg-lumiere-deep hover:bg-lumiere-gold-dark text-white font-semibold text-xs tracking-wider uppercase flex items-center justify-center gap-2 rounded-md transition-colors shadow-sm active:scale-[0.99]"
+              className="w-full h-[48px] bg-lumiere-deep hover:bg-lumiere-gold text-white font-medium text-xs tracking-[0.14em] uppercase flex items-center justify-center gap-2 transition-colors active:scale-[0.99]"
             >
               <span>{currentBanner.primaryBtnText || 'SHOP COLLECTION'}</span>
-              <ArrowRight size={15} />
+              <ArrowRight size={14} />
             </Link>
           </div>
 
-          {/* 6. Mobile Trust Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 mt-3.5 text-xs text-lumiere-muted font-medium">
-            <div className="flex items-center gap-1">
-              <span className="text-lumiere-gold font-bold">✓</span>
-              <span>BIS 916 Hallmarked</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-lumiere-gold font-bold">✓</span>
-              <span>Insured Delivery</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-lumiere-gold font-bold">✓</span>
-              <span>Lifetime Exchange</span>
-            </div>
+          <div className="flex items-center justify-center gap-4 text-[11px] text-lumiere-muted font-light">
+            <span>✓ BIS 916 Hallmarked</span>
+            <span>·</span>
+            <span>✓ Insured Delivery</span>
+            <span>·</span>
+            <span>✓ Lifetime Exchange</span>
           </div>
 
         </div>
 
-        {/* =========================================================================
-            CAROUSEL CONTROLS: Desktop Arrows, Pagination Dots & Autoplay Indicator
-            ========================================================================= */}
-        
-        {/* Desktop Side Arrows (Subtle overlay, min 44px touch targets) */}
+        {/* DESKTOP ARROWS & PAGINATION */}
         {totalBanners > 1 && (
           <>
             <button
@@ -439,10 +327,10 @@ const HeroCarousel = () => {
                 prevSlide();
                 triggerManualInteraction();
               }}
-              aria-label="Previous promotional banner"
-              className="hidden lg:flex absolute left-2 xl:left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full items-center justify-center bg-white/80 hover:bg-white text-lumiere-text hover:text-lumiere-gold border border-lumiere-border shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105"
+              aria-label="Previous banner"
+              className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-white/70 hover:bg-white text-lumiere-text hover:text-lumiere-gold border border-lumiere-border/60 shadow-subtle backdrop-blur-sm transition-all duration-300 hover:scale-105"
             >
-              <ChevronLeft size={22} strokeWidth={1.8} />
+              <ChevronLeft size={20} strokeWidth={1.5} />
             </button>
 
             <button
@@ -451,38 +339,32 @@ const HeroCarousel = () => {
                 nextSlide();
                 triggerManualInteraction();
               }}
-              aria-label="Next promotional banner"
-              className="hidden lg:flex absolute right-2 xl:right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full items-center justify-center bg-white/80 hover:bg-white text-lumiere-text hover:text-lumiere-gold border border-lumiere-border shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105"
+              aria-label="Next banner"
+              className="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center bg-white/70 hover:bg-white text-lumiere-text hover:text-lumiere-gold border border-lumiere-border/60 shadow-subtle backdrop-blur-sm transition-all duration-300 hover:scale-105"
             >
-              <ChevronRight size={22} strokeWidth={1.8} />
+              <ChevronRight size={20} strokeWidth={1.5} />
             </button>
-          </>
-        )}
 
-        {/* Pagination Dots (● ○ ○ ○) */}
-        {totalBanners > 1 && (
-          <div className="flex items-center justify-center gap-2.5 pb-4 pt-1 sm:pb-5">
-            {banners.map((b, idx) => {
-              const active = idx === currentIndex;
-              return (
-                <button
-                  key={b.id || idx}
-                  type="button"
-                  onClick={() => {
-                    goToSlide(idx);
-                    triggerManualInteraction();
-                  }}
-                  aria-label={`Go to slide ${idx + 1}: ${b.eyebrow || b.title}`}
-                  aria-current={active ? 'true' : 'false'}
-                  className={`h-2.5 rounded-full transition-all duration-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-lumiere-gold ${
-                    active 
-                      ? 'w-8 bg-lumiere-gold' 
-                      : 'w-2.5 bg-lumiere-border hover:bg-lumiere-gold/50'
-                  }`}
-                />
-              );
-            })}
-          </div>
+            <div className="flex items-center justify-center gap-2 pb-5 pt-1">
+              {banners.map((b, idx) => {
+                const active = idx === currentIndex;
+                return (
+                  <button
+                    key={b.id || idx}
+                    type="button"
+                    onClick={() => {
+                      goToSlide(idx);
+                      triggerManualInteraction();
+                    }}
+                    aria-label={`Go to slide ${idx + 1}`}
+                    className={`h-[2px] transition-all duration-500 focus:outline-none ${
+                      active ? 'w-8 bg-lumiere-gold' : 'w-3 bg-lumiere-border hover:bg-lumiere-gold/60'
+                    }`}
+                  />
+                );
+              })}
+            </div>
+          </>
         )}
 
       </div>
