@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trash2, ArrowRight, ShieldCheck, Tag, Sparkles } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import OptimizedImage from './OptimizedImage';
 
 const CartDrawer = () => {
   const {
@@ -145,10 +146,12 @@ const CartDrawer = () => {
                   {cartItems.map((item, idx) => (
                     <div key={`${item.productId}-${item.purity}-${item.size}-${idx}`} className="py-4 first:pt-0 flex gap-4 items-center">
                       <div className="w-20 h-24 bg-[#FAF7F2] border border-lumiere-border/60 overflow-hidden flex-shrink-0 relative">
-                        <img
-                          src={item.image || '/assets/category_necklace.jpg'}
+                        <OptimizedImage
+                          src={item.image || '/assets/category_necklace.webp'}
                           alt={item.name}
                           className="w-full h-full object-cover"
+                          sizes="thumbnail"
+                          aspectRatio="20/24"
                         />
                       </div>
 

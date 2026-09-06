@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getCategories } from '../services/productService';
 import SectionHeading from '../components/SectionHeading';
 import Loading from '../components/Loading';
+import OptimizedImage from '../components/OptimizedImage';
 
 const Collections = () => {
   const [categories, setCategories] = useState([]);
@@ -40,10 +41,14 @@ const Collections = () => {
               to={`/category/${cat.slug}`}
               className="group relative h-[440px] bg-lumiere-secondary overflow-hidden flex flex-col justify-end p-8 sm:p-12 block"
             >
-              <img
-                src={cat.image || '/assets/category_gold.jpg'}
+              <OptimizedImage
+                src={cat.image || '/assets/category_gold.webp'}
                 alt={cat.name}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="category-card"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                containerClassName="absolute inset-0 w-full h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-lumiere-deep/85 via-lumiere-deep/30 to-transparent" />
 

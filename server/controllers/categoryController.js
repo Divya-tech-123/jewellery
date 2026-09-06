@@ -33,7 +33,7 @@ const createCategory = async (req, res, next) => {
         name,
         slug,
         description: description || '',
-        image: image || '/assets/category_gold.jpg',
+        image: image || '/assets/category_gold.webp',
         featured: !!featured,
         createdAt: new Date(),
       };

@@ -25,17 +25,18 @@ import {
   AlertCircle
 } from 'lucide-react';
 import HeroCarousel from '../../components/HeroCarousel';
+import OptimizedImage from '../../components/OptimizedImage';
 
 const PRESET_IMAGES = [
-  { label: 'Hero Campaign (22K Gold Model)', url: '/assets/hero_campaign.jpg' },
-  { label: 'Bridal Campaign (Regal Bride)', url: '/assets/bridal_campaign.jpg' },
-  { label: 'Festive Campaign (Temple Gold)', url: '/assets/festival_campaign.jpg' },
-  { label: 'Occasion Festive', url: '/assets/occasion_festival.jpg' },
-  { label: 'Category Necklace (Kasu Mala)', url: '/assets/category_necklace.jpg' },
-  { label: 'Category Gold (Artisan Choker)', url: '/assets/category_gold.jpg' },
-  { label: 'Category Bangles (Nakshi)', url: '/assets/category_bangles.jpg' },
-  { label: 'Craftsmanship (Artisan Hand)', url: '/assets/craftsmanship.jpg' },
-  { label: 'Category Bridal (Jewellery Set)', url: '/assets/category_bridal.jpg' },
+  { label: 'Hero Campaign (22K Gold Model)', url: '/assets/hero_campaign.webp' },
+  { label: 'Bridal Campaign (Regal Bride)', url: '/assets/bridal_campaign.webp' },
+  { label: 'Festive Campaign (Temple Gold)', url: '/assets/festival_campaign.webp' },
+  { label: 'Occasion Festive', url: '/assets/occasion_festival.webp' },
+  { label: 'Category Necklace (Kasu Mala)', url: '/assets/category_necklace.webp' },
+  { label: 'Category Gold (Artisan Choker)', url: '/assets/category_gold.webp' },
+  { label: 'Category Bangles (Nakshi)', url: '/assets/category_bangles.webp' },
+  { label: 'Craftsmanship (Artisan Hand)', url: '/assets/craftsmanship.webp' },
+  { label: 'Category Bridal (Jewellery Set)', url: '/assets/category_bridal.webp' },
 ];
 
 const AdminHeroBanners = () => {
@@ -124,8 +125,8 @@ const AdminHeroBanners = () => {
       eyebrow: 'NEW COLLECTION',
       title: 'TIMELESS JEWELLERY\nFOR EVERY MOMENT',
       description: 'Handcrafted gold jewellery for celebrations, traditions and everyday elegance.',
-      desktopImage: '/assets/hero_campaign.jpg',
-      mobileImage: '/assets/hero_campaign.jpg',
+      desktopImage: '/assets/hero_campaign.webp',
+      mobileImage: '/assets/hero_campaign.webp',
       imagePosition: 'center 15%',
       primaryBtnText: 'SHOP NOW',
       primaryBtnLink: '/shop',
@@ -275,10 +276,12 @@ const AdminHeroBanners = () => {
 
                   {/* Thumbnail */}
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded bg-lumiere-cream border border-lumiere-border overflow-hidden shrink-0 relative">
-                    <img 
+                    <OptimizedImage 
                       src={banner.desktopImage} 
                       alt={banner.eyebrow}
                       className="w-full h-full object-cover" 
+                      sizes="thumbnail"
+                      aspectRatio="1/1"
                     />
                     {!banner.isActive && (
                       <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-[9px] font-bold uppercase">

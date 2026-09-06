@@ -1,17 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import OptimizedImage from './OptimizedImage';
 
 const CategoryCard = ({ title, image, link }) => {
   return (
     <Link to={link} className="group relative h-[380px] sm:h-[440px] bg-lumiere-secondary overflow-hidden flex flex-col justify-end p-6 sm:p-8 block">
       {/* Background Image with scale animation */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <img
+        <OptimizedImage
           src={image}
           alt={title}
+          sizes="category-card"
           loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          containerClassName="w-full h-full"
         />
         {/* Editorial dark gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-lumiere-deep/80 via-lumiere-deep/20 to-transparent transition-opacity duration-500 group-hover:opacity-90" />

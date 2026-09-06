@@ -1,10 +1,11 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShieldCheck, ArrowRight, Lock, AlertCircle, RefreshCw, CheckCircle2, ChevronDown } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { loadRazorpaySDK, getRazorpayKey, createRazorpayOrder, verifyPayment } from '../services/paymentService';
+import OptimizedImage from '../components/OptimizedImage';
 
 const INDIAN_STATES = [
   'Andhra Pradesh', 'Telangana', 'Karnataka', 'Tamil Nadu', 'Maharashtra', 
@@ -182,7 +183,7 @@ const Checkout = () => {
           currency: currency || 'INR',
           name: 'LUMIÈRE ATELIER',
           description: 'Timeless Luxury Jewellery Acquisition',
-          image: '/assets/category_necklace.jpg',
+          image: '/assets/category_necklace.webp',
           order_id: orderId,
           prefill: {
             name: formData.fullName,
@@ -557,10 +558,12 @@ const Checkout = () => {
             <div className="flex flex-col divide-y divide-lumiere-border/60 max-h-72 overflow-y-auto pr-1 mb-6">
               {cartItems.map((item, idx) => (
                 <div key={idx} className="py-3 flex items-center gap-3">
-                  <img
-                    src={item.image || '/assets/category_necklace.jpg'}
+                  <OptimizedImage
+                    src={item.image || '/assets/category_necklace.webp'}
                     alt={item.name}
                     className="w-14 h-16 object-cover bg-lumiere-secondary flex-shrink-0 border border-lumiere-border/60"
+                    sizes="thumbnail"
+                    aspectRatio="14/16"
                   />
                   <div className="flex-1 min-w-0">
                     <h5 className="font-serif text-sm text-lumiere-text font-medium truncate">

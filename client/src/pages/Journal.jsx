@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Clock, Calendar, ArrowUpRight, X, Share2, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import OptimizedImage from '../components/OptimizedImage';
 
 const ARTICLES = [
   {
@@ -12,7 +13,7 @@ const ARTICLES = [
     date: 'September 2026',
     readTime: '5 min read',
     author: 'Hélène Moreau, Master Gemologist',
-    image: '/assets/hero_campaign.jpg',
+    image: '/assets/hero_campaign.webp',
     excerpt:
       'How master diamond cutters unlock fire, brilliance, and scintillation through mathematical proportions developed over centuries in Antwerp and Jaipur.',
     content: [
@@ -30,7 +31,7 @@ const ARTICLES = [
     date: 'August 2026',
     readTime: '6 min read',
     author: 'Devendra Rao, Senior Goldsmith',
-    image: '/assets/category_gold.jpg',
+    image: '/assets/category_gold.webp',
     excerpt:
       'Exploring the timeless tactile warmth of 91.6% pure gold, ancient chasing techniques, and why modern collectors are returning to high-karat treasures.',
     content: [
@@ -47,7 +48,7 @@ const ARTICLES = [
     date: 'July 2026',
     readTime: '4 min read',
     author: 'Aria Chen, Creative Director',
-    image: '/assets/bridal_campaign.jpg',
+    image: '/assets/bridal_campaign.webp',
     excerpt:
       'Moving away from heavy, cumbersome bridal sets towards singular, impactful statement creations that can be worn for a lifetime beyond the wedding day.',
     content: [
@@ -64,7 +65,7 @@ const ARTICLES = [
     date: 'June 2026',
     readTime: '7 min read',
     author: 'Vikram Mehta, Head of Procurement',
-    image: '/assets/category_diamond.jpg',
+    image: '/assets/category_diamond.webp',
     excerpt:
       'Why two diamonds with identical grading reports can look entirely different in daylight, and how our gemologists curate only the top 1% of stones.',
     content: [
@@ -81,7 +82,7 @@ const ARTICLES = [
     date: 'May 2026',
     readTime: '5 min read',
     author: 'Devendra Rao, Senior Goldsmith',
-    image: '/assets/craftsmanship.jpg',
+    image: '/assets/craftsmanship.webp',
     excerpt:
       'Bridging 5,000 years of metallurgical history with precision aerospace micro-milling to achieve fluid organic jewellery forms.',
     content: [
@@ -144,10 +145,14 @@ const Journal = () => {
           <div className="py-12 border-b border-lumiere-border">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               <div className="lg:col-span-7 aspect-[16/10] overflow-hidden bg-lumiere-secondary group cursor-pointer" onClick={() => setActiveArticle(heroArticle)}>
-                <img
+                <OptimizedImage
                   src={heroArticle.image}
                   alt={heroArticle.title}
+                  sizes="half"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  containerClassName="w-full h-full"
                 />
               </div>
 
@@ -200,11 +205,14 @@ const Journal = () => {
                     className="aspect-[16/11] overflow-hidden mb-5 bg-[#FAF7F2] cursor-pointer"
                     onClick={() => setActiveArticle(article)}
                   >
-                    <img
+                    <OptimizedImage
                       src={article.image}
                       alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      sizes="journal-card"
                       loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      containerClassName="w-full h-full"
                     />
                   </div>
 
@@ -313,10 +321,13 @@ const Journal = () => {
               {/* Modal Scrollable Article Body */}
               <div className="flex-1 overflow-y-auto px-6 sm:px-12 py-8 space-y-6">
                 <div className="aspect-[16/9] overflow-hidden bg-lumiere-secondary mb-6">
-                  <img
+                  <OptimizedImage
                     src={activeArticle.image}
                     alt={activeArticle.title}
+                    priority={true}
+                    sizes="full"
                     className="w-full h-full object-cover"
+                    containerClassName="w-full h-full"
                   />
                 </div>
 

@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { getMyOrders } from '../services/orderService';
 import SectionHeading from '../components/SectionHeading';
 import Loading from '../components/Loading';
+import OptimizedImage from '../components/OptimizedImage';
 
 const Account = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -159,7 +160,13 @@ const Account = () => {
                       {order.items?.map((item, i) => (
                         <div key={i} className="flex items-center gap-3 text-xs">
                           {item.image && (
-                            <img src={item.image} alt={item.name} className="w-12 h-14 object-cover bg-lumiere-secondary flex-shrink-0" />
+                            <OptimizedImage
+                              src={item.image}
+                              alt={item.name}
+                              className="w-12 h-14 object-cover bg-lumiere-secondary flex-shrink-0"
+                              sizes="thumbnail"
+                              aspectRatio="12/14"
+                            />
                           )}
                           <div className="flex-1">
                             <h5 className="font-serif text-sm font-medium text-lumiere-charcoal">{item.name}</h5>

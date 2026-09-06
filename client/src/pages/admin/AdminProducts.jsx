@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, Search } from 'lucide-react';
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../../services/productService';
 import Loading from '../../components/Loading';
+import OptimizedImage from '../../components/OptimizedImage';
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -20,7 +21,7 @@ const AdminProducts = () => {
     description: '',
     stock: 10,
     weight: '20.0 grams',
-    images: ['/assets/product_elan_1.jpg'],
+    images: ['/assets/product_elan_1.webp'],
     bestseller: false,
     featured: false,
     newArrival: false,
@@ -62,7 +63,7 @@ const AdminProducts = () => {
       description: product.description || '',
       stock: product.stock !== undefined ? product.stock : 10,
       weight: product.weight || '20.0 grams',
-      images: product.images && product.images.length ? product.images : ['/assets/product_elan_1.jpg'],
+      images: product.images && product.images.length ? product.images : ['/assets/product_elan_1.webp'],
       bestseller: !!product.bestseller,
       featured: !!product.featured,
       newArrival: !!product.newArrival,
@@ -164,10 +165,12 @@ const AdminProducts = () => {
                 return (
                   <tr key={prodId} className="hover:bg-[#FAF7F2]/50">
                     <td className="p-4 flex items-center gap-3">
-                      <img
-                        src={product.images?.[0] || '/assets/product_elan_1.jpg'}
+                      <OptimizedImage
+                        src={product.images?.[0] || '/assets/product_elan_1.webp'}
                         alt={product.name}
                         className="w-12 h-14 object-cover bg-lumiere-secondary flex-shrink-0"
+                        sizes="thumbnail"
+                        aspectRatio="12/14"
                       />
                       <div>
                         <span className="font-serif text-sm font-medium text-lumiere-charcoal block line-clamp-1">

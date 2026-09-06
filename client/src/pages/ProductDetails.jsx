@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
+import OptimizedImage from '../components/OptimizedImage';
 
 const ProductDetails = () => {
   const { productId, slug, id } = useParams();
@@ -43,7 +44,7 @@ const ProductDetails = () => {
           if (res && res.success && res.product) {
             setProduct(res.product);
             setRelated(res.related || []);
-            setSelectedImg(res.product.images?.[0] || '/assets/category_necklace.jpg');
+            setSelectedImg(res.product.images?.[0] || '/assets/category_necklace.webp');
             setSelectedPurity(res.product.purities?.[0] || res.product.purity || '22K Gold');
             setSelectedSize(res.product.sizes?.[0] || 'Standard');
             setQuantity(1);
@@ -151,7 +152,14 @@ const ProductDetails = () => {
                       selectedImg === img ? 'border-lumiere-gold shadow-sm' : 'border-lumiere-border hover:border-lumiere-light'
                     }`}
                   >
-                    <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                    <OptimizedImage
+                      src={img}
+                      alt={`${product.name} view ${idx + 1}`}
+                      sizes="thumbnail"
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                      containerClassName="w-full h-full"
+                    />
                   </button>
                 ))}
               </div>
@@ -160,10 +168,15 @@ const ProductDetails = () => {
             {/* Main Editorial Canvas */}
             <div className="flex-1 flex flex-col gap-6">
               <div className="relative aspect-[1/1.08] bg-[#FAF7F2] border border-lumiere-border/60 overflow-hidden flex items-center justify-center p-6 group">
-                <img
-                  src={selectedImg || product.images?.[0] || '/assets/category_necklace.jpg'}
+                <OptimizedImage
+                  key={selectedImg}
+                  src={selectedImg || product.images?.[0] || '/assets/category_necklace.webp'}
                   alt={product.name}
+                  priority={true}
+                  sizes="product-detail"
+                  objectFit="contain"
                   className="max-h-full max-w-full object-contain transition-transform duration-700 group-hover:scale-105 cursor-zoom-in"
+                  containerClassName="w-full h-full flex items-center justify-center"
                 />
 
                 {/* Wishlist Floating Button */}

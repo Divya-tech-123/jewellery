@@ -1,7 +1,8 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter, RefreshCw, CheckCircle, Clock, Truck, CheckCheck, XCircle, ShieldCheck, User, MapPin } from 'lucide-react';
 import { getAllOrders, updateOrderStatus } from '../../services/orderService';
 import Loading from '../../components/Loading';
+import OptimizedImage from '../../components/OptimizedImage';
 
 const STATUS_CONFIG = {
   Pending: { bg: 'bg-amber-50', text: 'text-amber-800', border: 'border-amber-200', icon: Clock },
@@ -247,10 +248,12 @@ const AdminOrders = () => {
                     <div className="divide-y divide-lumiere-border/40">
                       {order.items?.map((item, idx) => (
                         <div key={idx} className="py-2.5 flex items-center gap-3">
-                          <img
-                            src={item.image || '/assets/category_necklace.jpg'}
+                          <OptimizedImage
+                            src={item.image || '/assets/category_necklace.webp'}
                             alt={item.name}
                             className="w-12 h-14 object-cover bg-lumiere-secondary border border-lumiere-border/60 flex-shrink-0"
+                            sizes="thumbnail"
+                            aspectRatio="12/14"
                           />
                           <div className="flex-1 min-w-0">
                             <h5 className="font-serif text-sm font-medium text-lumiere-text truncate">

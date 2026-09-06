@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Trash2, ShieldCheck, Tag, Sparkles, Truck, Lock } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import SectionHeading from '../components/SectionHeading';
+import OptimizedImage from '../components/OptimizedImage';
 
 const Cart = () => {
   const {
@@ -109,10 +110,12 @@ const Cart = () => {
               >
                 {/* Thumbnail */}
                 <div className="w-24 h-28 sm:w-28 sm:h-32 bg-[#FAF7F2] border border-lumiere-border/60 overflow-hidden flex-shrink-0">
-                  <img
-                    src={item.image || '/assets/category_necklace.jpg'}
+                  <OptimizedImage
+                    src={item.image || '/assets/category_necklace.webp'}
                     alt={item.name}
                     className="w-full h-full object-cover"
+                    sizes="thumbnail"
+                    aspectRatio="24/28"
                   />
                 </div>
 

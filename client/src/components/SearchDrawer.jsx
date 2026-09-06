@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { X, Search } from 'lucide-react';
 import { getProducts } from '../services/productService';
+import OptimizedImage from './OptimizedImage';
 
 const SearchDrawer = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState('');
@@ -108,10 +109,12 @@ const SearchDrawer = ({ isOpen, onClose }) => {
                   onClick={onClose}
                   className="flex gap-4 items-center group py-2 border-b border-lumiere-border/60 hover:bg-white/40 px-2 transition-colors"
                 >
-                  <img
-                    src={product.images && product.images[0] ? product.images[0] : '/assets/product_elan_1.jpg'}
+                  <OptimizedImage
+                    src={product.images && product.images[0] ? product.images[0] : '/assets/product_elan_1.webp'}
                     alt={product.name}
-                    className="w-14 h-14 object-cover bg-lumiere-secondary"
+                    className="w-14 h-14 object-cover bg-lumiere-secondary flex-shrink-0"
+                    sizes="thumbnail"
+                    aspectRatio="1/1"
                   />
                   <div className="flex-1">
                     <h4 className="font-serif text-base text-lumiere-charcoal group-hover:text-lumiere-gold transition-colors line-clamp-1">

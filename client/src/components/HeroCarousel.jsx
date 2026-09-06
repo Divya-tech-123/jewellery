@@ -13,6 +13,8 @@ import {
   getActiveBanners, 
   getCarouselSettings 
 } from '../services/bannerService';
+import OptimizedImage from './OptimizedImage';
+import { toWebp, getVariant } from '../utils/imageHelpers';
 
 const HeroCarousel = () => {
   const [banners, setBanners] = useState(getActiveBanners());
@@ -113,6 +115,22 @@ const HeroCarousel = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [nextSlide, prevSlide, triggerManualInteraction]);
+
+  // Preload next carousel slide image in background for instant seamless transitions
+  useEffect(() => {
+    if (totalBanners <= 1) return;
+    const nextIndex = (currentIndex + 1) % totalBanners;
+    const nextBanner = banners[nextIndex];
+    if (nextBanner) {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
+      const nextImgSrc = isMobile
+        ? (nextBanner.mobileImage || nextBanner.desktopImage)
+        : nextBanner.desktopImage;
+      const normalized = toWebp(nextImgSrc);
+      const preloader = new Image();
+      preloader.src = normalized;
+    }
+  }, [currentIndex, banners, totalBanners]);
 
   // Touch Swipe Handlers for Mobile
   const handleTouchStart = (e) => {
@@ -276,19 +294,17 @@ const HeroCarousel = () => {
             <div className="relative w-full h-[540px] xl:h-[580px] rounded-lg overflow-hidden bg-lumiere-cream border border-lumiere-border shadow-elevated group">
               
               {/* Animated Banner Image */}
-              <picture key={`img-desktop-${currentIndex}`} className="w-full h-full block">
-                <source 
-                  media="(max-width: 1023px)" 
-                  srcSet={currentBanner.mobileImage || currentBanner.desktopImage} 
-                />
-                <img
-                  src={currentBanner.desktopImage}
-                  alt={currentBanner.eyebrow + ' - ' + currentBanner.title.replace('\n', ' ')}
-                  className="w-full h-full object-cover transition-all duration-700 ease-out animate-kenburns"
-                  style={{ objectPosition: currentBanner.imagePosition || 'center 15%' }}
-                  loading="eager"
-                />
-              </picture>
+              <OptimizedImage
+                key={`img-desktop-${currentIndex}`}
+                src={currentBanner.desktopImage}
+                alt={currentBanner.eyebrow + ' - ' + currentBanner.title.replace('\n', ' ')}
+                priority={currentIndex === 0}
+                loading={currentIndex === 0 ? 'eager' : 'lazy'}
+                sizes="hero-desktop"
+                className="w-full h-full object-cover transition-all duration-700 ease-out animate-kenburns"
+                containerClassName="w-full h-full"
+                style={{ objectPosition: currentBanner.imagePosition || 'center 15%' }}
+              />
 
               {/* Top/Bottom Subtle Gradient Shading */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10 pointer-events-none" />
@@ -325,19 +341,17 @@ const HeroCarousel = () => {
           {/* 1. Mobile Jewellery Image Dominant Section (~310–340px) */}
           <div className="relative w-full h-[310px] sm:h-[350px] overflow-hidden bg-lumiere-cream border border-lumiere-border rounded-lg shadow-sm mb-4">
             
-            <picture key={`img-mobile-${currentIndex}`} className="w-full h-full block">
-              <source 
-                media="(max-width: 1023px)" 
-                srcSet={currentBanner.mobileImage || currentBanner.desktopImage} 
-              />
-              <img
-                src={currentBanner.mobileImage || currentBanner.desktopImage}
-                alt={currentBanner.eyebrow + ' - ' + currentBanner.title.replace('\n', ' ')}
-                className="w-full h-full object-cover transition-all duration-500 ease-out"
-                style={{ objectPosition: currentBanner.imagePosition || 'center 15%' }}
-                loading="eager"
-              />
-            </picture>
+            <OptimizedImage
+              key={`img-mobile-${currentIndex}`}
+              src={currentBanner.mobileImage || currentBanner.desktopImage}
+              alt={currentBanner.eyebrow + ' - ' + currentBanner.title.replace('\n', ' ')}
+              priority={currentIndex === 0}
+              loading={currentIndex === 0 ? 'eager' : 'lazy'}
+              sizes="hero-mobile"
+              className="w-full h-full object-cover transition-all duration-500 ease-out"
+              containerClassName="w-full h-full"
+              style={{ objectPosition: currentBanner.imagePosition || 'center 15%' }}
+            />
 
             {/* Mobile Image Badge */}
             <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 border border-lumiere-border rounded shadow-sm text-left leading-tight">

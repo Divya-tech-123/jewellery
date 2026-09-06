@@ -13,8 +13,8 @@ export const DEFAULT_BANNERS = [
     eyebrow: 'NEW COLLECTION',
     title: 'TIMELESS JEWELLERY\nFOR EVERY MOMENT',
     description: 'Handcrafted gold jewellery for celebrations, traditions and everyday elegance.',
-    desktopImage: '/assets/hero_campaign.jpg',
-    mobileImage: '/assets/hero_campaign.jpg',
+    desktopImage: '/assets/hero_campaign.webp',
+    mobileImage: '/assets/hero_campaign.webp',
     imagePosition: 'center 15%',
     primaryBtnText: 'SHOP COLLECTION',
     primaryBtnLink: '/shop',
@@ -32,8 +32,8 @@ export const DEFAULT_BANNERS = [
     eyebrow: 'BRIDAL COLLECTION',
     title: 'MAKE YOUR SPECIAL DAY\nSHINE BRIGHTER',
     description: 'Discover timeless bridal jewellery inspired by tradition.',
-    desktopImage: '/assets/bridal_campaign.jpg',
-    mobileImage: '/assets/bridal_campaign.jpg',
+    desktopImage: '/assets/bridal_campaign.webp',
+    mobileImage: '/assets/bridal_campaign.webp',
     imagePosition: 'center 20%',
     primaryBtnText: 'EXPLORE BRIDAL',
     primaryBtnLink: '/category/bridal',
@@ -51,8 +51,8 @@ export const DEFAULT_BANNERS = [
     eyebrow: 'FESTIVE EDIT',
     title: 'CELEBRATE\nIN GOLD',
     description: 'Elegant jewellery for every celebration.',
-    desktopImage: '/assets/festival_campaign.jpg',
-    mobileImage: '/assets/occasion_festival.jpg',
+    desktopImage: '/assets/festival_campaign.webp',
+    mobileImage: '/assets/occasion_festival.webp',
     imagePosition: 'center center',
     primaryBtnText: 'SHOP FESTIVE',
     primaryBtnLink: '/shop?collection=Festival',
@@ -70,8 +70,8 @@ export const DEFAULT_BANNERS = [
     eyebrow: 'SPECIAL OFFER',
     title: 'A LITTLE MORE GOLD,\nA LITTLE MORE JOY',
     description: 'Exclusive offers on selected jewellery.',
-    desktopImage: '/assets/category_necklace.jpg',
-    mobileImage: '/assets/category_gold.jpg',
+    desktopImage: '/assets/category_necklace.webp',
+    mobileImage: '/assets/category_gold.webp',
     imagePosition: 'center center',
     primaryBtnText: 'SHOP OFFERS',
     primaryBtnLink: '/shop?collection=Offers',
@@ -116,12 +116,19 @@ export const isBannerCurrentlyActive = (banner) => {
   return true;
 };
 
+const normalizeBannerImages = (banner) => ({
+  ...banner,
+  desktopImage: banner.desktopImage ? banner.desktopImage.replace(/\.(jpg|jpeg|png)$/i, '.webp') : banner.desktopImage,
+  mobileImage: banner.mobileImage ? banner.mobileImage.replace(/\.(jpg|jpeg|png)$/i, '.webp') : banner.mobileImage,
+});
+
 // Get active & scheduled banners for the storefront customer hero
 export const getActiveBanners = () => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     const banners = stored ? JSON.parse(stored) : DEFAULT_BANNERS;
     const active = banners
+      .map(normalizeBannerImages)
       .filter(isBannerCurrentlyActive)
       .sort((a, b) => (a.order || 0) - (b.order || 0));
 

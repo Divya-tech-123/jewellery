@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingBag, Star, Check } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
+import OptimizedImage from './OptimizedImage';
 
 const ProductCard = ({ product, onQuickView }) => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const ProductCard = ({ product, onQuickView }) => {
   const productIdentifier = product.slug || product.id || product._id;
   const productUrl = `/product/${productIdentifier}`;
 
-  const primaryImg = product.images && product.images.length > 0 ? product.images[0] : '/assets/category_necklace.jpg';
+  const primaryImg = product.images && product.images.length > 0 ? product.images[0] : '/assets/category_necklace.webp';
 
   const handleCardClick = (e) => {
     // If click was triggered on an interactive element or link, let native behavior take place
@@ -84,11 +85,14 @@ const ProductCard = ({ product, onQuickView }) => {
 
         {/* Product Image with Hover Zoom */}
         <Link to={productUrl} className="block w-full h-full">
-          <img
+          <OptimizedImage
             src={primaryImg}
             alt={product.name}
+            sizes="product-card"
             loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+            containerClassName="w-full h-full"
           />
         </Link>
 

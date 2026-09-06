@@ -1,4 +1,4 @@
-﻿import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from './ToastContext';
 
 const CartContext = createContext();
@@ -21,7 +21,7 @@ export const CartProvider = ({ children }) => {
           quantity: 1,
           purity: '22K Gold',
           size: '18 inch',
-          image: '/assets/category_necklace.jpg',
+          image: '/assets/category_necklace.webp',
           slug: 'lakshmi-kasu-mala-gold-necklace',
         }
       ];
@@ -111,7 +111,7 @@ export const CartProvider = ({ children }) => {
           quantity: Number(quantity),
           purity: selectedPurity,
           size: selectedSize,
-          image: product.images && product.images.length > 0 ? product.images[0] : '/assets/category_necklace.jpg',
+          image: product.images && product.images.length > 0 ? product.images[0] : '/assets/category_necklace.webp',
           slug: product.slug,
         };
         addedItemData = newItem;
@@ -129,7 +129,7 @@ export const CartProvider = ({ children }) => {
           purity: selectedPurity,
           size: selectedSize,
           price: product.price,
-          image: product.images?.[0] || '/assets/category_necklace.jpg',
+          image: product.images?.[0] || '/assets/category_necklace.webp',
         },
         onViewCart: () => setIsCartOpen(true),
       });

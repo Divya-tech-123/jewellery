@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { X, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import OptimizedImage from './OptimizedImage';
 
 const QuickViewModal = ({ product, isOpen, onClose, onOpenConsultation }) => {
   if (!isOpen || !product) return null;
 
   const { addToCart } = useCart();
   const [selectedImg, setSelectedImg] = useState(
-    product.images && product.images.length ? product.images[0] : '/assets/product_elan_1.jpg'
+    product.images && product.images.length ? product.images[0] : '/assets/product_elan_1.webp'
   );
   const [selectedPurity, setSelectedPurity] = useState(
     product.purities && product.purities.length ? product.purities[0] : product.purity || '22K Gold'
@@ -49,10 +50,15 @@ const QuickViewModal = ({ product, isOpen, onClose, onOpenConsultation }) => {
           {/* Gallery Column */}
           <div className="bg-[#F7F4EE] p-6 sm:p-10 flex flex-col justify-center items-center">
             <div className="w-full aspect-square max-h-[380px] overflow-hidden mb-4 flex items-center justify-center">
-              <img
+              <OptimizedImage
+                key={selectedImg}
                 src={selectedImg}
                 alt={product.name}
+                priority={true}
+                sizes="product-card"
+                objectFit="contain"
                 className="max-h-full object-contain transition-all duration-300"
+                containerClassName="w-full h-full flex items-center justify-center"
               />
             </div>
 
@@ -68,7 +74,14 @@ const QuickViewModal = ({ product, isOpen, onClose, onOpenConsultation }) => {
                       selectedImg === img ? 'border-lumiere-gold' : 'border-lumiere-border'
                     }`}
                   >
-                    <img src={img} alt="thumb" className="w-full h-full object-cover" />
+                    <OptimizedImage
+                      src={img}
+                      alt="thumb"
+                      sizes="thumbnail"
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                      containerClassName="w-full h-full"
+                    />
                   </button>
                 ))}
               </div>

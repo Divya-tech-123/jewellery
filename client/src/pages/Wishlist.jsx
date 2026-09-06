@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext';
 import { getProducts } from '../services/productService';
 import SectionHeading from '../components/SectionHeading';
 import Loading from '../components/Loading';
+import OptimizedImage from '../components/OptimizedImage';
 
 const Wishlist = () => {
   const { onQuickView } = useOutletContext();
@@ -65,10 +66,12 @@ const Wishlist = () => {
                 <div key={prodId} className="group relative flex flex-col bg-white p-4 border border-lumiere-border">
                   <div className="relative aspect-[1/1.1] overflow-hidden bg-lumiere-secondary mb-3">
                     <Link to={`/product/${product.slug || product.id || product._id}`} className="block w-full h-full">
-                      <img
-                        src={product.images?.[0] || '/assets/product_elan_1.jpg'}
+                      <OptimizedImage
+                        src={product.images?.[0] || '/assets/product_elan_1.webp'}
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="product-card"
+                        aspectRatio="1/1.1"
                       />
                     </Link>
                     <button

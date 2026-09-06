@@ -3,6 +3,7 @@ import { useParams, Link, useOutletContext } from 'react-router-dom';
 import { getProducts } from '../services/productService';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
+import OptimizedImage from '../components/OptimizedImage';
 
 const Category = () => {
   const { slug } = useParams();
@@ -50,22 +51,25 @@ const Category = () => {
   }, [slug]);
 
   const bannerImages = {
-    gold: '/assets/category_gold.jpg',
-    diamond: '/assets/category_diamond.jpg',
-    bridal: '/assets/bridal_campaign.jpg',
-    everyday: '/assets/category_everyday.jpg',
+    gold: '/assets/category_gold.webp',
+    diamond: '/assets/category_diamond.webp',
+    bridal: '/assets/bridal_campaign.webp',
+    everyday: '/assets/category_everyday.webp',
   };
 
-  const bannerImg = bannerImages[slug?.toLowerCase()] || '/assets/hero_campaign.jpg';
+  const bannerImg = bannerImages[slug?.toLowerCase()] || '/assets/hero_campaign.webp';
 
   return (
     <div className="bg-lumiere-bg">
       {/* Editorial Banner */}
       <div className="relative h-[48vh] min-h-[380px] bg-lumiere-deep flex items-center justify-center overflow-hidden">
-        <img
+        <OptimizedImage
           src={bannerImg}
           alt={title}
-          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          priority={true}
+          sizes="full"
+          className="w-full h-full object-cover opacity-60"
+          containerClassName="absolute inset-0 w-full h-full"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-lumiere-deep via-lumiere-deep/40 to-transparent" />
 

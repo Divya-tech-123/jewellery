@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import HeroCarousel from '../components/HeroCarousel';
+import OptimizedImage from '../components/OptimizedImage';
 import { getProducts } from '../services/productService';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -37,7 +38,7 @@ const defaultProducts = [
     reviewsCount: 38,
     bestseller: true,
     newArrival: true,
-    images: ['/assets/category_necklace.jpg', '/assets/product_elan_1.jpg'],
+    images: ['/assets/category_necklace.webp', '/assets/product_elan_1.webp'],
     sizes: ['16 inch', '18 inch', '20 inch']
   },
   {
@@ -54,7 +55,7 @@ const defaultProducts = [
     reviewsCount: 44,
     bestseller: true,
     newArrival: true,
-    images: ['/assets/category_earrings.jpg', '/assets/bridal_campaign.jpg'],
+    images: ['/assets/category_earrings.webp', '/assets/bridal_campaign.webp'],
     sizes: ['Standard Drop (45mm)']
   },
   {
@@ -71,7 +72,7 @@ const defaultProducts = [
     reviewsCount: 29,
     bestseller: false,
     newArrival: true,
-    images: ['/assets/product_celeste_1.jpg', '/assets/product_celeste_2.jpg'],
+    images: ['/assets/product_celeste_1.webp', '/assets/product_celeste_2.webp'],
     sizes: ['Size 12', 'Size 14', 'Size 16', 'Size 18']
   },
   {
@@ -88,7 +89,7 @@ const defaultProducts = [
     reviewsCount: 31,
     bestseller: true,
     newArrival: true,
-    images: ['/assets/category_pendants.jpg', '/assets/category_necklace.jpg'],
+    images: ['/assets/category_pendants.webp', '/assets/category_necklace.webp'],
     sizes: ['Pendant with Loop']
   },
   {
@@ -105,7 +106,7 @@ const defaultProducts = [
     reviewsCount: 52,
     bestseller: true,
     newArrival: false,
-    images: ['/assets/category_bangles.jpg', '/assets/craftsmanship.jpg'],
+    images: ['/assets/category_bangles.webp', '/assets/craftsmanship.webp'],
     sizes: ['2.4 (Small)', '2.6 (Medium)', '2.8 (Large)']
   },
   {
@@ -122,7 +123,7 @@ const defaultProducts = [
     reviewsCount: 23,
     bestseller: false,
     newArrival: true,
-    images: ['/assets/category_chains.jpg', '/assets/category_gold.jpg'],
+    images: ['/assets/category_chains.webp', '/assets/category_gold.webp'],
     sizes: ['20 inch', '22 inch', '24 inch']
   },
   {
@@ -139,7 +140,7 @@ const defaultProducts = [
     reviewsCount: 35,
     bestseller: true,
     newArrival: false,
-    images: ['/assets/product_elan_1.jpg', '/assets/product_elan_2.jpg'],
+    images: ['/assets/product_elan_1.webp', '/assets/product_elan_2.webp'],
     sizes: ['14 inch (Choker)', '16 inch']
   },
   {
@@ -156,19 +157,19 @@ const defaultProducts = [
     reviewsCount: 40,
     bestseller: true,
     newArrival: true,
-    images: ['/assets/category_bridal.jpg', '/assets/hero_campaign.jpg'],
+    images: ['/assets/category_bridal.webp', '/assets/hero_campaign.webp'],
     sizes: ['Standard Drop (50mm)']
   }
 ];
 
 // 6 Categories with real jewellery images
 const shopCategories = [
-  { name: 'Rings', image: '/assets/product_celeste_1.jpg', count: '48 Designs', link: '/shop?category=Rings' },
-  { name: 'Earrings', image: '/assets/category_earrings.jpg', count: '86 Designs', link: '/shop?category=Earrings' },
-  { name: 'Necklaces', image: '/assets/category_necklace.jpg', count: '64 Designs', link: '/shop?category=Necklaces' },
-  { name: 'Chains', image: '/assets/category_chains.jpg', count: '32 Designs', link: '/shop?category=Chains' },
-  { name: 'Bangles', image: '/assets/category_bangles.jpg', count: '54 Designs', link: '/shop?category=Bangles' },
-  { name: 'Pendants', image: '/assets/category_pendants.jpg', count: '40 Designs', link: '/shop?category=Pendants' },
+  { name: 'Rings', image: '/assets/product_celeste_1.webp', count: '48 Designs', link: '/shop?category=Rings' },
+  { name: 'Earrings', image: '/assets/category_earrings.webp', count: '86 Designs', link: '/shop?category=Earrings' },
+  { name: 'Necklaces', image: '/assets/category_necklace.webp', count: '64 Designs', link: '/shop?category=Necklaces' },
+  { name: 'Chains', image: '/assets/category_chains.webp', count: '32 Designs', link: '/shop?category=Chains' },
+  { name: 'Bangles', image: '/assets/category_bangles.webp', count: '54 Designs', link: '/shop?category=Bangles' },
+  { name: 'Pendants', image: '/assets/category_pendants.webp', count: '40 Designs', link: '/shop?category=Pendants' },
 ];
 
 // 4 Occasions (2-Column Grid)
@@ -176,28 +177,28 @@ const occasions = [
   {
     title: 'WEDDING',
     subtitle: 'Bridal Sets & Harams',
-    image: '/assets/category_bridal.jpg',
+    image: '/assets/category_bridal.webp',
     link: '/category/bridal',
     button: 'EXPLORE BRIDAL →',
   },
   {
     title: 'FESTIVAL',
     subtitle: 'Auspicious 22K Gold',
-    image: '/assets/occasion_festival.jpg',
+    image: '/assets/occasion_festival.webp',
     link: '/shop?collection=Festival',
     button: 'EXPLORE FESTIVE →',
   },
   {
     title: 'EVERYDAY',
     subtitle: 'Lightweight Daily Wear',
-    image: '/assets/category_everyday.jpg',
+    image: '/assets/category_everyday.webp',
     link: '/shop?collection=Everyday',
     button: 'EXPLORE EVERYDAY →',
   },
   {
     title: 'PARTY',
     subtitle: 'Diamonds & Cocktails',
-    image: '/assets/hero_campaign.jpg',
+    image: '/assets/hero_campaign.webp',
     link: '/shop?collection=Party',
     button: 'EXPLORE PARTY →',
   },
@@ -337,11 +338,14 @@ const Home = () => {
               >
                 {/* Category Image */}
                 <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden bg-lumiere-cream border border-lumiere-border mb-2">
-                  <img
+                  <OptimizedImage
                     src={cat.image}
                     alt={cat.name}
+                    sizes="category-avatar"
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover hover:scale-108 transition-transform duration-500 ease-out"
+                    containerClassName="w-full h-full rounded-full"
                   />
                 </div>
 
@@ -422,11 +426,14 @@ const Home = () => {
                 to={occ.link}
                 className="group relative h-[175px] sm:h-[220px] lg:h-[260px] rounded overflow-hidden border border-lumiere-border shadow-sm block"
               >
-                <img
+                <OptimizedImage
                   src={occ.image}
                   alt={occ.title}
+                  sizes="occasion-card"
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
+                  containerClassName="w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3 sm:p-4 text-white">
                   <h3 className="font-serif text-sm sm:text-base font-bold tracking-wider uppercase">
@@ -480,12 +487,16 @@ const Home = () => {
 
               <div className="hidden sm:block lg:col-span-5">
                 <div className="relative aspect-[4/3] rounded overflow-hidden border border-white/20 shadow-sm bg-black">
-                  <img
-                    src="/assets/category_gold.jpg"
+                  <OptimizedImage
+                    src="/assets/category_gold.webp"
                     alt="Heritage Gold Jewellery"
+                    sizes="half"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover opacity-90 hover:scale-104 transition-transform duration-700 ease-out"
+                    containerClassName="w-full h-full"
                   />
-                  <div className="absolute bottom-2 right-2 bg-black/80 text-white text-[9px] font-bold px-2 py-0.5 uppercase tracking-widest">
+                  <div className="absolute bottom-2 right-2 bg-black/80 text-white text-[9px] font-bold px-2 py-0.5 uppercase tracking-widest z-10">
                     BIS 916 CERTIFIED
                   </div>
                 </div>
@@ -609,13 +620,16 @@ const Home = () => {
             
             {/* 1. Indian Bridal Image */}
             <div className="w-full lg:col-span-6 relative aspect-[16/11] sm:aspect-[16/9] lg:aspect-square overflow-hidden bg-lumiere-cream">
-              <img
-                src="/assets/bridal_campaign.jpg"
+              <OptimizedImage
+                src="/assets/bridal_campaign.webp"
                 alt="South Indian bride wearing regal 22K gold jewellery"
-                className="w-full h-full object-cover object-top"
+                sizes="half"
                 loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover object-top"
+                containerClassName="w-full h-full"
               />
-              <div className="absolute top-2.5 left-2.5 bg-black/80 text-white text-[9px] font-bold px-2 py-0.5 uppercase tracking-wider rounded">
+              <div className="absolute top-2.5 left-2.5 bg-black/80 text-white text-[9px] font-bold px-2 py-0.5 uppercase tracking-wider rounded z-10">
                 KALYANAM · BRIDAL EDIT
               </div>
             </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import SectionHeading from '../components/SectionHeading';
+import OptimizedImage from '../components/OptimizedImage';
 
 const About = () => {
   return (
@@ -18,10 +19,14 @@ const About = () => {
 
         {/* Big Editorial Image */}
         <div className="aspect-[16/9] max-h-[560px] overflow-hidden mb-20 bg-lumiere-secondary">
-          <img
-            src="/assets/hero_campaign.jpg"
+          <OptimizedImage
+            src="/assets/hero_campaign.webp"
             alt="Lumière Atelier Heritage"
+            sizes="full"
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
+            containerClassName="w-full h-full"
           />
         </div>
 
@@ -61,7 +66,15 @@ const About = () => {
         {/* Split Quote */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-[#F4EFE6] p-8 sm:p-14">
           <div className="md:col-span-4 aspect-square overflow-hidden bg-lumiere-secondary">
-            <img src="/assets/craftsmanship.jpg" alt="Artisan crafting jewellery" className="w-full h-full object-cover" />
+            <OptimizedImage
+              src="/assets/craftsmanship.webp"
+              alt="Artisan crafting jewellery"
+              sizes="half"
+              loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover"
+              containerClassName="w-full h-full"
+            />
           </div>
           <div className="md:col-span-8 flex flex-col justify-center">
             <p className="font-editorial italic text-2xl sm:text-3xl text-lumiere-charcoal leading-snug mb-4">

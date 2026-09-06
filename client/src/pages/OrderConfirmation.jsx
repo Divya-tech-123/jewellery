@@ -1,8 +1,9 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { CheckCircle, ShieldCheck, Printer, ArrowRight, Package, Truck, Lock, Sparkles } from 'lucide-react';
 import { getOrderById } from '../services/orderService';
 import Loading from '../components/Loading';
+import OptimizedImage from '../components/OptimizedImage';
 
 const OrderConfirmation = () => {
   const { id } = useParams();
@@ -148,10 +149,12 @@ const OrderConfirmation = () => {
             <div className="divide-y divide-lumiere-border/60">
               {order.items?.map((item, idx) => (
                 <div key={idx} className="py-4 flex items-center gap-4">
-                  <img
-                    src={item.image || '/assets/category_necklace.jpg'}
+                  <OptimizedImage
+                    src={item.image || '/assets/category_necklace.webp'}
                     alt={item.name}
                     className="w-16 h-20 object-cover bg-lumiere-secondary border border-lumiere-border/60 flex-shrink-0"
+                    sizes="thumbnail"
+                    aspectRatio="16/20"
                   />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-serif text-base text-lumiere-text font-medium truncate">

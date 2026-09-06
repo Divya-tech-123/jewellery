@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getProducts, getCategories } from '../services/productService';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
+import OptimizedImage from '../components/OptimizedImage';
 
 const Shop = () => {
   const { onQuickView } = useOutletContext();
@@ -338,20 +339,23 @@ const Shop = () => {
                       >
                         <div className="relative aspect-[1/1.05] overflow-hidden mb-6 bg-[#FAF7F2]">
                           <Link to={`/product/${product.slug || product.id || product._id}`} className="block w-full h-full">
-                            <img
-                              src={product.images?.[0] || '/assets/product_elan_1.jpg'}
+                            <OptimizedImage
+                              src={product.images?.[0] || '/assets/product_elan_1.webp'}
                               alt={product.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                              sizes="half"
                               loading="lazy"
+                              decoding="async"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                              containerClassName="w-full h-full"
                             />
                           </Link>
-                          <span className="absolute top-4 left-4 text-[9px] uppercase tracking-widest px-3 py-1 bg-white/90 backdrop-blur-sm text-lumiere-charcoal font-semibold">
+                          <span className="absolute top-4 left-4 text-[9px] uppercase tracking-widest px-3 py-1 bg-white/90 backdrop-blur-sm text-lumiere-charcoal font-semibold z-10">
                             {product.category}
                           </span>
                           <button
                             type="button"
                             onClick={() => onQuickView && onQuickView(product)}
-                            className="absolute bottom-4 right-4 px-4 py-2 bg-white/90 backdrop-blur-sm text-[10px] uppercase font-semibold tracking-wider text-lumiere-charcoal hover:bg-lumiere-text hover:text-white transition-colors"
+                            className="absolute bottom-4 right-4 px-4 py-2 bg-white/90 backdrop-blur-sm text-[10px] uppercase font-semibold tracking-wider text-lumiere-charcoal hover:bg-lumiere-text hover:text-white transition-colors z-10"
                           >
                             Quick View
                           </button>
@@ -415,10 +419,14 @@ const Shop = () => {
                       </div>
 
                       <div className="relative z-10 w-full md:w-72 aspect-[4/5] overflow-hidden border border-white/20">
-                        <img
-                          src="/assets/craftsmanship.jpg"
+                        <OptimizedImage
+                          src="/assets/craftsmanship.webp"
                           alt="Master Artisan"
+                          sizes="half"
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover"
+                          containerClassName="w-full h-full"
                         />
                       </div>
                     </div>

@@ -3,12 +3,13 @@ import { Plus, X } from 'lucide-react';
 import { getCategories } from '../../services/productService';
 import api from '../../services/api';
 import Loading from '../../components/Loading';
+import OptimizedImage from '../../components/OptimizedImage';
 
 const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [form, setForm] = useState({ name: '', description: '', image: '/assets/category_gold.jpg', featured: true });
+  const [form, setForm] = useState({ name: '', description: '', image: '/assets/category_gold.webp', featured: true });
 
   const fetchCategories = async () => {
     setLoading(true);
@@ -32,7 +33,7 @@ const AdminCategories = () => {
       await api.post('/categories', form);
       fetchCategories();
       setModalOpen(false);
-      setForm({ name: '', description: '', image: '/assets/category_gold.jpg', featured: true });
+      setForm({ name: '', description: '', image: '/assets/category_gold.webp', featured: true });
     } catch (err) {
       console.error(err);
       alert('Failed to add category');
@@ -66,10 +67,12 @@ const AdminCategories = () => {
           {categories.map((c) => (
             <div key={c.slug} className="bg-white border border-lumiere-border p-6 shadow-sm flex flex-col justify-between">
               <div>
-                <img
-                  src={c.image || '/assets/category_gold.jpg'}
+                <OptimizedImage
+                  src={c.image || '/assets/category_gold.webp'}
                   alt={c.name}
                   className="w-full h-40 object-cover bg-lumiere-secondary mb-4"
+                  sizes="product-card"
+                  aspectRatio="16/9"
                 />
                 <h4 className="font-serif text-2xl font-normal text-lumiere-charcoal mb-2">{c.name}</h4>
                 <p className="text-xs text-lumiere-muted font-light leading-relaxed mb-4">{c.description}</p>

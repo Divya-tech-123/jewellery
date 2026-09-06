@@ -1,6 +1,7 @@
-﻿import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Info, X, ShoppingBag, ArrowRight } from 'lucide-react';
+import OptimizedImage from '../components/OptimizedImage';
 
 const ToastContext = createContext();
 
@@ -54,10 +55,12 @@ export const ToastProvider = ({ children }) => {
               {toast.type === 'cart' && toast.item ? (
                 <div className="flex items-start gap-3">
                   <div className="w-12 h-14 bg-white/10 border border-white/20 overflow-hidden flex-shrink-0">
-                    <img
-                      src={toast.item.image || '/assets/category_necklace.jpg'}
+                    <OptimizedImage
+                      src={toast.item.image || '/assets/category_necklace.webp'}
                       alt={toast.item.name}
                       className="w-full h-full object-cover"
+                      sizes="thumbnail"
+                      aspectRatio="12/14"
                     />
                   </div>
 
