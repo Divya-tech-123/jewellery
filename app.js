@@ -244,9 +244,9 @@ function handleHeroSwipe() {
 function goToHeroSlide(index) {
   const heroSection = document.getElementById('heroCarousel');
   if (!heroSection) return;
-
   const slides = heroSection.querySelectorAll('.hero-slide');
   const dots = heroSection.querySelectorAll('.hero-dot');
+  const indicatorBars = document.querySelectorAll('.hero-indicators-bar');
   const total = slides.length;
   if (total === 0) return;
 
@@ -262,6 +262,13 @@ function goToHeroSlide(index) {
 
   dots.forEach((dot, idx) => {
     dot.classList.toggle('active', idx === currentHeroSlide);
+  });
+
+  indicatorBars.forEach((bar) => {
+    const indicators = bar.querySelectorAll('.hero-num-indicator');
+    indicators.forEach((ind, idx) => {
+      ind.classList.toggle('active', idx === currentHeroSlide);
+    });
   });
 
   resumeHeroAutoplayAfterDelay();

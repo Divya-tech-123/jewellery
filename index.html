@@ -153,36 +153,53 @@
          SECTION 1: AUTOMATIC RESPONSIVE HERO BANNER CAROUSEL
          Multi-banner carousel with autoplay, swipe, dots, and arrows
          ========================================================================== -->
-    <section class="hero-carousel-section" id="heroCarousel" aria-roledescription="carousel" aria-label="Promotional Jewellery Campaigns">
+    <!-- ==========================================================================
+         SECTION 1: AUTOMATIC RESPONSIVE HERO BANNER CAROUSEL
+         3-Slide Premium Jewellery Hero with Champagne Luxury Palette & 01/02/03 Indicators
+         ========================================================================== -->
+    <section class="hero-carousel-section" id="heroCarousel" aria-roledescription="carousel" aria-label="Lumière High Jewellery Showcase">
       <div class="hero-slides-wrapper">
 
         <!-- SLIDE 1: NEW COLLECTION -->
         <div class="hero-slide active" data-index="0">
-          <div class="container hero-container">
+          <div class="hero-container">
             <div class="hero-content-col">
-              <div class="hero-eyebrow">
-                <span class="gold-dot"></span>
-                <span>22K BIS 916 GOLD · NEW COLLECTION</span>
+              <div class="hero-content-top">
+                <div class="hero-eyebrow">
+                  <span class="champagne-line"></span>
+                  <span>NEW COLLECTION</span>
+                </div>
+                <h1 class="hero-headline">
+                  TIMELESS RADIANCE
+                </h1>
+                <p class="hero-desc">
+                  Jewellery crafted for your most beautiful moments.
+                </p>
+                <div class="hero-cta-wrap">
+                  <a href="#new-arrivals" class="btn btn-hero">
+                    <span>EXPLORE COLLECTION →</span>
+                  </a>
+                </div>
               </div>
-              <h1 class="hero-headline">
-                TIMELESS JEWELLERY<br>
-                FOR EVERY MOMENT
-              </h1>
-              <p class="hero-desc">
-                Handcrafted gold jewellery for celebrations, traditions and everyday elegance.
-              </p>
-              <div class="hero-cta-wrap">
-                <a href="#new-arrivals" class="btn btn-hero">
-                  <span>SHOP COLLECTION →</span>
-                </a>
-                <a href="#categories" class="btn btn-hero-outline desktop-only">
-                  <span>EXPLORE ALL</span>
-                </a>
-              </div>
-              <div class="hero-trust-row desktop-only">
-                <span class="trust-item"><span class="trust-check">✓</span> 100% BIS 916 Hallmarked</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Insured Fast Delivery</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Lifetime Exchange</span>
+              <div class="hero-indicators-desktop">
+                <div class="hero-indicators-bar">
+                  <button class="hero-num-indicator active" onclick="goToHeroSlide(0)" aria-label="Slide 01">
+                    <span class="num">01</span>
+                    <span class="bar"></span>
+                  </button>
+                  <button class="hero-num-indicator" onclick="goToHeroSlide(1)" aria-label="Slide 02">
+                    <span class="num">02</span>
+                    <span class="bar"></span>
+                  </button>
+                  <button class="hero-num-indicator" onclick="goToHeroSlide(2)" aria-label="Slide 03">
+                    <span class="num">03</span>
+                    <span class="bar"></span>
+                  </button>
+                </div>
+                <div class="hero-arrows-wrap">
+                  <button class="hero-arrow-btn prev" onclick="heroCarouselPrev()" aria-label="Previous slide">‹</button>
+                  <button class="hero-arrow-btn next" onclick="heroCarouselNext()" aria-label="Next slide">›</button>
+                </div>
               </div>
             </div>
             <div class="hero-image-col">
@@ -193,15 +210,6 @@
                   class="hero-img"
                   loading="eager"
                 >
-                <div class="hero-floating-badge">
-                  <span class="badge-title">22K GOLD</span>
-                  <span class="badge-sub">BIS 916</span>
-                </div>
-              </div>
-              <div class="hero-trust-row mobile-only">
-                <span class="trust-item"><span class="trust-check">✓</span> BIS 916</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Insured Delivery</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Lifetime Exchange</span>
               </div>
             </div>
           </div>
@@ -209,31 +217,44 @@
 
         <!-- SLIDE 2: BRIDAL COLLECTION -->
         <div class="hero-slide" data-index="1">
-          <div class="container hero-container">
+          <div class="hero-container">
             <div class="hero-content-col">
-              <div class="hero-eyebrow">
-                <span class="gold-dot"></span>
-                <span>KALYANAM · BRIDAL COLLECTION</span>
+              <div class="hero-content-top">
+                <div class="hero-eyebrow">
+                  <span class="champagne-line"></span>
+                  <span>ROYAL HERITAGE</span>
+                </div>
+                <h1 class="hero-headline">
+                  ETERNAL MAJESTY
+                </h1>
+                <p class="hero-desc">
+                  Mastercrafted bridal heirlooms inspired by centuries of royal tradition.
+                </p>
+                <div class="hero-cta-wrap">
+                  <a href="#bridal" class="btn btn-hero">
+                    <span>EXPLORE BRIDAL →</span>
+                  </a>
+                </div>
               </div>
-              <h1 class="hero-headline">
-                MAKE YOUR SPECIAL DAY<br>
-                SHINE BRIGHTER
-              </h1>
-              <p class="hero-desc">
-                Discover timeless bridal jewellery inspired by tradition and master South Indian craftsmanship.
-              </p>
-              <div class="hero-cta-wrap">
-                <a href="#bridal" class="btn btn-hero">
-                  <span>EXPLORE BRIDAL →</span>
-                </a>
-                <a href="#contact" class="btn btn-hero-outline desktop-only">
-                  <span>BOOK CONSULTATION</span>
-                </a>
-              </div>
-              <div class="hero-trust-row desktop-only">
-                <span class="trust-item"><span class="trust-check">✓</span> Handcrafted Nakshi Temple Gold</span>
-                <span class="trust-item"><span class="trust-check">✓</span> 100% BIS 916 Certified</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Custom Bridal Sizing</span>
+              <div class="hero-indicators-desktop">
+                <div class="hero-indicators-bar">
+                  <button class="hero-num-indicator" onclick="goToHeroSlide(0)" aria-label="Slide 01">
+                    <span class="num">01</span>
+                    <span class="bar"></span>
+                  </button>
+                  <button class="hero-num-indicator active" onclick="goToHeroSlide(1)" aria-label="Slide 02">
+                    <span class="num">02</span>
+                    <span class="bar"></span>
+                  </button>
+                  <button class="hero-num-indicator" onclick="goToHeroSlide(2)" aria-label="Slide 03">
+                    <span class="num">03</span>
+                    <span class="bar"></span>
+                  </button>
+                </div>
+                <div class="hero-arrows-wrap">
+                  <button class="hero-arrow-btn prev" onclick="heroCarouselPrev()" aria-label="Previous slide">‹</button>
+                  <button class="hero-arrow-btn next" onclick="heroCarouselNext()" aria-label="Next slide">›</button>
+                </div>
               </div>
             </div>
             <div class="hero-image-col">
@@ -245,119 +266,62 @@
                   style="object-position: center 20%;"
                   loading="lazy"
                 >
-                <div class="hero-floating-badge">
-                  <span class="badge-title">BRIDAL EDIT</span>
-                  <span class="badge-sub">KALYANAM</span>
-                </div>
-              </div>
-              <div class="hero-trust-row mobile-only">
-                <span class="trust-item"><span class="trust-check">✓</span> BIS 916</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Bridal Harams</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Nakshi Craft</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- SLIDE 3: FESTIVE COLLECTION -->
+        <!-- SLIDE 3: ATELIER SELECTION -->
         <div class="hero-slide" data-index="2">
-          <div class="container hero-container">
+          <div class="hero-container">
             <div class="hero-content-col">
-              <div class="hero-eyebrow">
-                <span class="gold-dot"></span>
-                <span>UTSAV · FESTIVE EDIT</span>
-              </div>
-              <h1 class="hero-headline">
-                CELEBRATE<br>
-                IN GOLD
-              </h1>
-              <p class="hero-desc">
-                Elegant jewellery for every celebration. Pure 22K gold designed to illuminate festive moments.
-              </p>
-              <div class="hero-cta-wrap">
-                <a href="#categories" class="btn btn-hero">
-                  <span>SHOP FESTIVE →</span>
-                </a>
-                <a href="#categories" class="btn btn-hero-outline desktop-only">
-                  <span>DISCOVER UTSAV</span>
-                </a>
-              </div>
-              <div class="hero-trust-row desktop-only">
-                <span class="trust-item"><span class="trust-check">✓</span> Auspicious 22K Designs</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Insured Express Delivery</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Velvet Gift Box</span>
-              </div>
-            </div>
-            <div class="hero-image-col">
-              <div class="hero-img-wrap">
-                <img 
-                  src="assets/festival_campaign.jpg" 
-                  alt="Festive gold jewellery for celebrations" 
-                  class="hero-img"
-                  style="object-position: center center;"
-                  loading="lazy"
-                >
-                <div class="hero-floating-badge">
-                  <span class="badge-title">FESTIVE EDIT</span>
-                  <span class="badge-sub">22K GOLD</span>
+              <div class="hero-content-top">
+                <div class="hero-eyebrow">
+                  <span class="champagne-line"></span>
+                  <span>FINE JEWELLERY</span>
+                </div>
+                <h1 class="hero-headline">
+                  ILLUMINATE YOUR GRACE
+                </h1>
+                <p class="hero-desc">
+                  Exquisite 22K BIS 916 hallmarked masterpieces designed to celebrate life's milestones.
+                </p>
+                <div class="hero-cta-wrap">
+                  <a href="#categories" class="btn btn-hero">
+                    <span>DISCOVER DESIGNS →</span>
+                  </a>
                 </div>
               </div>
-              <div class="hero-trust-row mobile-only">
-                <span class="trust-item"><span class="trust-check">✓</span> BIS 916</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Festive Gold</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Gift Ready</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- SLIDE 4: SPECIAL OFFER -->
-        <div class="hero-slide" data-index="3">
-          <div class="container hero-container">
-            <div class="hero-content-col">
-              <div class="hero-eyebrow">
-                <span class="gold-dot"></span>
-                <span>ATELIER PRIVILEGE · SPECIAL OFFER</span>
-              </div>
-              <h1 class="hero-headline">
-                A LITTLE MORE GOLD,<br>
-                A LITTLE MORE JOY
-              </h1>
-              <p class="hero-desc">
-                Exclusive offers on selected handcrafted jewellery. Celebrate milestones with curated savings.
-              </p>
-              <div class="hero-cta-wrap">
-                <a href="#new-arrivals" class="btn btn-hero">
-                  <span>SHOP OFFERS →</span>
-                </a>
-                <a href="#categories" class="btn btn-hero-outline desktop-only">
-                  <span>VIEW PROMOTIONS</span>
-                </a>
-              </div>
-              <div class="hero-trust-row desktop-only">
-                <span class="trust-item"><span class="trust-check">✓</span> Zero Making Charge On Select Pieces</span>
-                <span class="trust-item"><span class="trust-check">✓</span> 100% BIS 916 Stamp</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Lifetime Value Promise</span>
+              <div class="hero-indicators-desktop">
+                <div class="hero-indicators-bar">
+                  <button class="hero-num-indicator" onclick="goToHeroSlide(0)" aria-label="Slide 01">
+                    <span class="num">01</span>
+                    <span class="bar"></span>
+                  </button>
+                  <button class="hero-num-indicator" onclick="goToHeroSlide(1)" aria-label="Slide 02">
+                    <span class="num">02</span>
+                    <span class="bar"></span>
+                  </button>
+                  <button class="hero-num-indicator active" onclick="goToHeroSlide(2)" aria-label="Slide 03">
+                    <span class="num">03</span>
+                    <span class="bar"></span>
+                  </button>
+                </div>
+                <div class="hero-arrows-wrap">
+                  <button class="hero-arrow-btn prev" onclick="heroCarouselPrev()" aria-label="Previous slide">‹</button>
+                  <button class="hero-arrow-btn next" onclick="heroCarouselNext()" aria-label="Next slide">›</button>
+                </div>
               </div>
             </div>
             <div class="hero-image-col">
               <div class="hero-img-wrap">
                 <img 
                   src="assets/category_necklace.jpg" 
-                  alt="Exclusive offer gold jewellery collection" 
+                  alt="Fine jewellery collection" 
                   class="hero-img"
                   style="object-position: center center;"
                   loading="lazy"
                 >
-                <div class="hero-floating-badge">
-                  <span class="badge-title">EXCLUSIVE</span>
-                  <span class="badge-sub">ATELIER OFFER</span>
-                </div>
-              </div>
-              <div class="hero-trust-row mobile-only">
-                <span class="trust-item"><span class="trust-check">✓</span> BIS 916</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Special Value</span>
-                <span class="trust-item"><span class="trust-check">✓</span> Insured Courier</span>
               </div>
             </div>
           </div>
@@ -365,16 +329,22 @@
 
       </div>
 
-      <!-- Carousel Side Navigation Arrows (Desktop) -->
-      <button class="hero-arrow-btn prev" onclick="heroCarouselPrev()" aria-label="Previous promotional banner">‹</button>
-      <button class="hero-arrow-btn next" onclick="heroCarouselNext()" aria-label="Next promotional banner">›</button>
-
-      <!-- Carousel Pagination Dots (● ○ ○ ○) -->
-      <div class="hero-dots-container" id="heroDots">
-        <button class="hero-dot active" onclick="goToHeroSlide(0)" aria-label="Slide 1: New Collection"></button>
-        <button class="hero-dot" onclick="goToHeroSlide(1)" aria-label="Slide 2: Bridal Collection"></button>
-        <button class="hero-dot" onclick="goToHeroSlide(2)" aria-label="Slide 3: Festive Collection"></button>
-        <button class="hero-dot" onclick="goToHeroSlide(3)" aria-label="Slide 4: Special Offer"></button>
+      <!-- Mobile Indicators Bar (Fixed at bottom of hero on mobile) -->
+      <div class="hero-mobile-indicators mobile-only" id="heroMobileIndicators">
+        <div class="hero-indicators-bar">
+          <button class="hero-num-indicator active" onclick="goToHeroSlide(0)" aria-label="Slide 01">
+            <span class="num">01</span>
+            <span class="bar"></span>
+          </button>
+          <button class="hero-num-indicator" onclick="goToHeroSlide(1)" aria-label="Slide 02">
+            <span class="num">02</span>
+            <span class="bar"></span>
+          </button>
+          <button class="hero-num-indicator" onclick="goToHeroSlide(2)" aria-label="Slide 03">
+            <span class="num">03</span>
+            <span class="bar"></span>
+          </button>
+        </div>
       </div>
     </section>
 
